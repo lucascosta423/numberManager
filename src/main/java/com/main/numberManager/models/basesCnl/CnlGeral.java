@@ -1,4 +1,4 @@
-package com.main.numberManager.service;
+package com.main.numberManager.models.basesCnl;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class ClassAbstraCnl {
+@Table(name = "BASE_CNL_GERAL")
+public class CnlGeral {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -30,3 +31,4 @@ public abstract class ClassAbstraCnl {
     private String codigoAreaLocal;
     private String status;
 }
+
