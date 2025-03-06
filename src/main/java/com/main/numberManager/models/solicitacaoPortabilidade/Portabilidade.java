@@ -1,6 +1,7 @@
-package com.main.numberManager.model.solicitacaoPortabilidade;
+package com.main.numberManager.models.solicitacaoPortabilidade;
 
 
+import com.main.numberManager.models.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,9 @@ public class Portabilidade {
 
     private String documento;
 
-    private Integer idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     private Integer idProvedor;
 
