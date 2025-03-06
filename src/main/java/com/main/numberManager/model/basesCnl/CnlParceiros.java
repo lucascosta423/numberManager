@@ -6,5 +6,5 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "BASE_CNL_PARCEIRO")
 public class CnlParceiros extends ClassAbstraCnl {
-
+    
 }
