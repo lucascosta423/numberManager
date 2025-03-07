@@ -1,4 +1,4 @@
-package com.main.numberManager.models.baseNumerosUltracom;
+package com.main.numberManager.models.numero;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Numero {
+public class NumeroModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

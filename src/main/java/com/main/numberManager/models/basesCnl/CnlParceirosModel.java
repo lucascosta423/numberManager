@@ -3,7 +3,7 @@ package com.main.numberManager.models.basesCnl;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "BASE_CNL_ULTRACOM")
-public class CnlUltracom extends CnlGeral {
+@Table(name = "BASE_CNL_PARCEIRO")
+public class CnlParceirosModel extends CnlGeralModel {
 
 }

@@ -1,7 +1,7 @@
 package com.main.numberManager.models.solicitacaoPortabilidade;
 
 
-import com.main.numberManager.models.usuario.Usuario;
+import com.main.numberManager.models.usuario.UsuarioModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "SO_PORTABILIDADE")
-public class Portabilidade {
+public class PortabilidadeModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +30,7 @@ public class Portabilidade {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    private UsuarioModel usuarioModel;
 
     private Integer idProvedor;
 

@@ -1,4 +1,4 @@
-package com.main.numberManager.models.provedores;
+package com.main.numberManager.models.provedor;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Provedor {
+public class ProvedorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -1,17 +1,17 @@
 package com.main.numberManager.models.usuario;
 
-import com.main.numberManager.models.provedores.Provedor;
+import com.main.numberManager.models.provedor.ProvedorModel;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TB_USUARIOS")
-public class Usuario {
+public class UsuarioModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "provedor_id", nullable = false)
-    private Provedor provedor;
+    private ProvedorModel provedorModel;
     private String nome;
     private String email;
     private String usuario;
