@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -17,7 +18,9 @@ import java.util.stream.Stream;
 public class CnlUtils{
 
     public static Stream<String> readerFile(MultipartFile file) throws IOException {
-        return new BufferedReader(new InputStreamReader(file.getInputStream())).lines();
+        return new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))
+                .lines()
+                .skip(1);
     }
 
     public static <T> List<T> parseLines(List<String> lines, Function<String, T> mapper) {
@@ -61,7 +64,6 @@ public class CnlUtils{
                 }
                 partIndex++;
             }
-
             return model;
         } catch (Exception e) {
             throw new RuntimeException("Erro ao mapear linha para " + type.getSimpleName(), e);

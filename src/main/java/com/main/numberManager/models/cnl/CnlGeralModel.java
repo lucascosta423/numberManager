@@ -1,4 +1,4 @@
-package com.main.numberManager.models.basesCnl;
+package com.main.numberManager.models.cnl;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,11 +25,11 @@ public class CnlGeralModel {
     private String prefixo;
     private String faixaInicial;
     private String faixaFinal;
-    private String codigoCNL;
+    private String codigoCnl;
     private String nomeLocalidade;
     private String areaLocal;
     private String siglaAreaLocal;
-    private String codigoAreaLocal;
+    private String codigoArea;
     private String status;
 
 }
