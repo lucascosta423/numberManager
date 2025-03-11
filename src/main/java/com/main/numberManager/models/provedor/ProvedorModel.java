@@ -19,8 +19,16 @@ public class ProvedorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false,unique = true,length = 150)
     private String nome;
+
+    @Column(nullable = false,unique = true,length = 11)
     private String contato;
+
+    @Column(nullable = false,unique = true,length = 15)
     private String documento;
+
+    @Column(nullable = false,unique = true,length = 70)
     private String email;
 }

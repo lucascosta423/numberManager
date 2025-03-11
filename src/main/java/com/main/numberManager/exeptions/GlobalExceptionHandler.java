@@ -16,11 +16,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }

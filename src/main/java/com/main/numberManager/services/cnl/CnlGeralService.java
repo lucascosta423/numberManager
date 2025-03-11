@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
-public class CnlGeralService implements CnlInterface<CnlGeralModel>{
+public class CnlGeralService{
     private final CnlGeralRepository cnlGeralRepository;
 
     public CnlGeralService(CnlGeralRepository cnlGeralRepository) {
@@ -56,7 +56,6 @@ public class CnlGeralService implements CnlInterface<CnlGeralModel>{
         }
     }
 
-    @Override
     public void saveBatch(List<CnlGeralModel> batch) {
         cnlGeralRepository.saveAll(batch);
     }

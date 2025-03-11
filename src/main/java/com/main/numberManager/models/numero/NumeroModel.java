@@ -1,10 +1,12 @@
 package com.main.numberManager.models.numero;
 
+import com.main.numberManager.models.provedor.ProvedorModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.time.LocalDateTime;
 
@@ -19,11 +21,21 @@ public class NumeroModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer idProvedor;
+    @ManyToOne
+    @JoinColumn(name = "provedor_id", nullable = false)
+    private ProvedorModel provedor;
 
-    private String numero;
+    @Column(nullable = false,length = 2)
+    private String cn;
 
-    private String regiao;
+    @Column(nullable = false,length = 4)
+    private String prefixo;
+
+    @Column(nullable = false,length = 4)
+    private String mcdu;
+
+    @Column(nullable = false,length = 20)
+    private String area;
 
     private String cliente;
 
