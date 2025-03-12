@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.time.LocalDateTime;
 
@@ -20,10 +19,6 @@ public class NumeroModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "provedor_id", nullable = false)
-    private ProvedorModel provedor;
 
     @Column(nullable = false,length = 2)
     private String cn;
@@ -45,5 +40,10 @@ public class NumeroModel {
 
     private LocalDateTime dataCancelamento;
 
+    @ManyToOne
+    @JoinColumn(name = "id_provedor")
+    private ProvedorModel provedor;
+
     private String status;
+
 }

@@ -1,8 +1,10 @@
 package com.main.numberManager.dtos.numero;
 
+import jakarta.persistence.Column;
+
 import java.time.LocalDateTime;
 
-public record NumeroDTO(
+public record RequestNumeroDTO(
         String cn,
         String prefixo,
         String mcdu,

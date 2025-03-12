@@ -2,6 +2,7 @@ package com.main.numberManager.services.cnl;
 
 import com.main.numberManager.models.cnl.CnlGeralModel;
 import com.main.numberManager.repositorys.cnl.CnlGeralRepository;
+import com.main.numberManager.services.interfaceImpl.InterfaceImpl;
 import com.main.numberManager.utils.CnlUtils;
 import com.main.numberManager.utils.StringUtils;
 import org.springframework.data.domain.Page;
@@ -12,11 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
-public class CnlGeralService{
+public class CnlGeralService implements InterfaceImpl<CnlGeralModel> {
     private final CnlGeralRepository cnlGeralRepository;
 
     public CnlGeralService(CnlGeralRepository cnlGeralRepository) {

@@ -39,19 +39,18 @@ public class CnlUtils{
         try {
             String[] parts = line.split(";");
 
-            if (parts.length < 13) { // Ajuste conforme o número de colunas esperado
+            if (parts.length < 10) { // Ajuste conforme o número de colunas esperado
                 throw new IllegalArgumentException("Linha inválida: " + line + " (Esperado >= 13 colunas, encontrado " + parts.length + ")");
             }
 
             T model = type.getDeclaredConstructor().newInstance();
 
             Field[] fields = type.getDeclaredFields();
-            int partIndex = 0; // Índice para percorrer os dados do arquivo
+            int partIndex = 0;
 
             for (Field field : fields) {
                 field.setAccessible(true);
 
-                // Ignorar campos anotados como @Id ou @GeneratedValue
                 if (field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(GeneratedValue.class)) {
                     continue;
                 }
@@ -59,7 +58,7 @@ public class CnlUtils{
                 if (partIndex < parts.length) {
                     String value = parts[partIndex].trim();
                     if (!value.isEmpty()) {
-                        field.set(model, value); // Atribui valores aos campos do modelo
+                        field.set(model, value);
                     }
                 }
                 partIndex++;

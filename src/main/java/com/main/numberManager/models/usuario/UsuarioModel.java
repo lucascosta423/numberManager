@@ -19,8 +19,11 @@ public class UsuarioModel {
     private Integer id;
     private String nome;
     private String email;
+
+    @Column(nullable = false, unique = true)
     private String usuario;
     private String senha;
+
     @ManyToOne
     @JoinColumn(name = "provedor_id", nullable = false)
     private ProvedorModel provedor;

@@ -1,23 +1,33 @@
 package com.main.numberManager.controllers.numero;
 
+import com.main.numberManager.dtos.numero.RequestNumeroDTO;
+import com.main.numberManager.models.numero.NumeroModel;
+import com.main.numberManager.models.provedor.ProvedorModel;
 import com.main.numberManager.services.numero.NumeroService;
+import com.main.numberManager.services.provedor.ProvedorService;
+import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/numero")
 public class NumeroController {
     private final NumeroService numeroService;
+    private final ProvedorService provedorService;
 
-    public NumeroController(NumeroService numeroService) {
+    public NumeroController(NumeroService numeroService, ProvedorService provedorService) {
         this.numeroService = numeroService;
+        this.provedorService = provedorService;
     }
 
     @PostMapping("/upload")
@@ -28,5 +38,36 @@ public class NumeroController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
         }
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateNumero(@PathVariable(value = "id") Integer id,
+                                               @RequestBody @Valid RequestNumeroDTO requestNumeroDTO){
+        Optional<NumeroModel> numeroModelOptional = numeroService.findById(id);
+        if (numeroModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Numero não encontrado");
+        }
+
+        Optional<ProvedorModel> provedorModelOptional = provedorService.findById(requestNumeroDTO.idProvedor());
+        if (provedorModelOptional.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Provedor não encontrado");
+        }
+        var numeroModel = new NumeroModel();
+        BeanUtils.copyProperties(requestNumeroDTO,numeroModel);
+        numeroModel.setId(numeroModelOptional.get().getId());
+        numeroModel.setProvedor(provedorModelOptional.get());
+
+        return ResponseEntity.status(HttpStatus.OK).body(numeroService.save(numeroModel));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<NumeroModel>> getALlProvedor(
+            @PageableDefault(page = 0,
+                    size = 10,
+                    direction = Sort.Direction.ASC)
+            Pageable pageable){
+
+        return ResponseEntity.status(HttpStatus.OK).body(numeroService.findAll(pageable));
     }
 }
