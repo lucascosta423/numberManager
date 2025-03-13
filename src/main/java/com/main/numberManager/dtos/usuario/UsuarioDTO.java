@@ -20,9 +20,9 @@ public record UsuarioDTO(
         @NotBlank(message = "Usuario não pode ser vazio")
         String usuario,
 
-
         String senha,
-        Integer provedorId
+
+        Integer provedor
 ) {
 
 }
