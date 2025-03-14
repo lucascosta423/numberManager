@@ -38,9 +38,7 @@ public class CnlGeralController {
     }
     @GetMapping
     public ResponseEntity<Page<CnlGeralModel>> getByCodigoCnl(@PageableDefault(page = 0, size = 10,direction = Sort.Direction.ASC)Pageable pageable) {
-        // O pageable contém informações sobre a página, como o número da página e o tamanho
         Page<CnlGeralModel> pageResult = cnlGeralService.findAll(pageable);
-
         return ResponseEntity.status(HttpStatus.OK).body(pageResult);
     }
 

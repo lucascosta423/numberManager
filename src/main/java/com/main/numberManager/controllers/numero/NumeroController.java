@@ -1,6 +1,7 @@
 package com.main.numberManager.controllers.numero;
 
 import com.main.numberManager.dtos.numero.RequestNumeroDTO;
+import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.numero.NumeroModel;
 import com.main.numberManager.models.provedor.ProvedorModel;
 import com.main.numberManager.services.numero.NumeroService;
@@ -44,20 +45,19 @@ public class NumeroController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateNumero(@PathVariable(value = "id") Integer id,
                                                @RequestBody @Valid RequestNumeroDTO requestNumeroDTO){
-        Optional<NumeroModel> numeroModelOptional = numeroService.findById(id);
-        if (numeroModelOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Numero não encontrado");
-        }
 
-        Optional<ProvedorModel> provedorModelOptional = provedorService.findById(requestNumeroDTO.idProvedor());
-        if (provedorModelOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Provedor não encontrado");
-        }
-        var numeroModel = new NumeroModel();
-        BeanUtils.copyProperties(requestNumeroDTO,numeroModel);
-        numeroModel.setId(numeroModelOptional.get().getId());
-        numeroModel.setProvedor(provedorModelOptional.get());
+        NumeroModel numeroModel = numeroService.findById(id)
+                .orElseThrow(() -> new NotFoundException("Numero não encontrado"));
 
+        ProvedorModel provedorModel = provedorService.findById(requestNumeroDTO.idProvedor())
+                .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
+        numeroModel.setProvedor(provedorModel);
+
+        BeanUtils.copyProperties(
+                requestNumeroDTO,
+                numeroModel,
+                "id","cn","mcdu","area","provedor"
+        );
         return ResponseEntity.status(HttpStatus.OK).body(numeroService.save(numeroModel));
     }
 

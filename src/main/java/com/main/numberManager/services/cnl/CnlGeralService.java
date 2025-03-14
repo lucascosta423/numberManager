@@ -2,7 +2,7 @@ package com.main.numberManager.services.cnl;
 
 import com.main.numberManager.models.cnl.CnlGeralModel;
 import com.main.numberManager.repositorys.cnl.CnlGeralRepository;
-import com.main.numberManager.services.interfaceImpl.InterfaceImpl;
+import com.main.numberManager.services.serviceImpl.IService;
 import com.main.numberManager.utils.CnlUtils;
 import com.main.numberManager.utils.StringUtils;
 import org.springframework.data.domain.Page;
@@ -16,12 +16,13 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
-public class CnlGeralService implements InterfaceImpl<CnlGeralModel> {
+public class CnlGeralService implements IService<CnlGeralModel> {
     private final CnlGeralRepository cnlGeralRepository;
 
     public CnlGeralService(CnlGeralRepository cnlGeralRepository) {
         this.cnlGeralRepository = cnlGeralRepository;
     }
+
 
     public Page<CnlGeralModel> findAll(Pageable pageable) {
         return cnlGeralRepository.findAll(pageable);

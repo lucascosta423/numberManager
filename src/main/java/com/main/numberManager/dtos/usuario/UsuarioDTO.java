@@ -24,5 +24,7 @@ public record UsuarioDTO(
 
         Integer provedor
 ) {
-
+        public UsuarioDTO(String senha, String usuario, String email, String nome) {
+                this(nome, email, usuario, senha, 0);
+        }
 }

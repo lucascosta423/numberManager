@@ -2,17 +2,12 @@ package com.main.numberManager.services.numero;
 
 import com.main.numberManager.models.cnl.CnlGeralModel;
 import com.main.numberManager.models.numero.NumeroModel;
-import com.main.numberManager.models.provedor.ProvedorModel;
 import com.main.numberManager.repositorys.numeros.NumeroRepository;
-import com.main.numberManager.repositorys.provedor.ProvedorRepository;
-import com.main.numberManager.services.interfaceImpl.InterfaceImpl;
+import com.main.numberManager.services.serviceImpl.IService;
 import com.main.numberManager.services.provedor.ProvedorService;
 import com.main.numberManager.utils.CnlUtils;
-import com.main.numberManager.utils.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,22 +18,31 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
-public class NumeroService implements InterfaceImpl<NumeroModel> {
+public class NumeroService implements IService<NumeroModel> {
     private final NumeroRepository numeroRepository;
-    private final ProvedorService provedorService;
 
-    public NumeroService(NumeroRepository numeroRepository, ProvedorService provedorService) {
+    public NumeroService(NumeroRepository numeroRepository) {
         this.numeroRepository = numeroRepository;
-        this.provedorService = provedorService;
     }
 
+
+    public NumeroModel save(NumeroModel numeroModel) {
+        return numeroRepository.save(numeroModel);
+    }
+
+    public Optional<NumeroModel> findById(Integer id) {
+        return numeroRepository.findById(id);
+    }
+
+    public Page<NumeroModel> findAll(Pageable pageable) {
+        return numeroRepository.findAll(pageable);
+    }
 
     @Override
     public void processFile(MultipartFile file) throws IOException {
         try (Stream<String> lines = CnlUtils.readerFile(file)) {
             List<NumeroModel> batch = new ArrayList<>();
-            int batchSize = 1000; // Define o tamanho do lote
-
+            int batchSize = 1000;
 
             lines.forEach(line -> {
 
@@ -62,17 +66,5 @@ public class NumeroService implements InterfaceImpl<NumeroModel> {
     @Override
     public void saveBatch(List<NumeroModel> batch) {
         numeroRepository.saveAll(batch);
-    }
-
-    public Optional<NumeroModel> findById(Integer id) {
-        return numeroRepository.findById(id);
-    }
-
-    public NumeroModel save(NumeroModel numeroModel) {
-        return numeroRepository.save(numeroModel);
-    }
-
-    public Page<NumeroModel> findAll(Pageable pageable) {
-        return numeroRepository.findAll(pageable);
     }
 }
