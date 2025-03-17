@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "portabilidade")
-@Table(name = "so_portabilidade")
+@Table(name = "tb_so_portabilidade")
 public class PortabilidadeModel {
 
     @Id
@@ -29,7 +29,7 @@ public class PortabilidadeModel {
 
     private String documento;
 
-    private UsuarioModel usuarioModel;
+    private String usuario;
 
     @ManyToOne
     @JoinColumn(name = "provedor_id", nullable = false)

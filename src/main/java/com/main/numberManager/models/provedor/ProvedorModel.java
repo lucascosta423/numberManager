@@ -1,16 +1,10 @@
 package com.main.numberManager.models.provedor;
 
-import com.main.numberManager.models.numero.NumeroModel;
-import com.main.numberManager.models.usuario.UsuarioModel;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.br.CNPJ;
-
-import java.util.List;
 
 
 @Entity(name = "provedor")
