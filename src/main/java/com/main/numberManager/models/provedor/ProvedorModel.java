@@ -8,7 +8,7 @@ import lombok.Setter;
 
 
 @Entity(name = "provedor")
-@Table(name = "TB_PROVEDOR")
+@Table(name = "provedor")
 @Getter
 @Setter
 @AllArgsConstructor

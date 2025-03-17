@@ -11,7 +11,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity(name = "usuario")
-@Table(name = "tb_usuario")
+@Table(name = "usuario")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,13 +21,16 @@ public class UsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false,unique = true)
     private String email;
 
     @Column(nullable = false, unique = true)
     private String usuario;
 
+    @Column(nullable = false)
     private String senha;
 
     @ManyToOne

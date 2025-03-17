@@ -42,16 +42,4 @@ public class CnlGeralController {
         return ResponseEntity.status(HttpStatus.OK).body(pageResult);
     }
 
-    @GetMapping("/cnl")
-    public ResponseEntity<List<CnlGeralModel>> getByCodigoArea(@RequestBody CodigoAreaDTO codigoArea) {
-        System.out.println(codigoArea);
-        List<CnlGeralModel> cnlGeralModels = cnlGeralService.findByCodigoArea(codigoArea.codigoArea());
-
-        if (cnlGeralModels.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(cnlGeralModels);
-    }
-
 }

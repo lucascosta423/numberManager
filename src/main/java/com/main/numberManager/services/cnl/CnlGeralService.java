@@ -28,8 +28,9 @@ public class CnlGeralService implements IService<CnlGeralModel> {
         return cnlGeralRepository.findAll(pageable);
     }
 
-    public List<CnlGeralModel> findByCodigoArea(String codigoArea) {
-        return cnlGeralRepository.findByCodigoArea(codigoArea);
+
+    public CnlGeralModel findNumero(Integer prefixo,Integer valor,Integer codigoNacional){
+        return cnlGeralRepository.findNumero(prefixo,valor,codigoNacional);
     }
 
     public void processFile(MultipartFile file) throws IOException {

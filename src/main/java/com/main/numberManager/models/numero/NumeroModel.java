@@ -9,8 +9,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "TB_NUMEROS")
+@Entity(name = "numero")
+@Table(name = "numero")
 @Getter
 @Setter
 @AllArgsConstructor

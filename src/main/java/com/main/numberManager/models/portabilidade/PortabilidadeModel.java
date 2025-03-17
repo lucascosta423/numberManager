@@ -16,14 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "portabilidade")
-@Table(name = "tb_so_portabilidade")
+@Table(name = "so_portabilidade")
 public class PortabilidadeModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private List<String> numeros;
+    private String numero;
 
     private String razao;
 
