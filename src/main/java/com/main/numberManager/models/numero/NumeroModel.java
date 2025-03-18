@@ -41,7 +41,7 @@ public class NumeroModel {
     private LocalDateTime dataCancelamento;
 
     @ManyToOne
-    @JoinColumn(name = "id_provedor")
+    @JoinColumn(name = "id_provedor",nullable = false)
     private ProvedorModel provedor;
 
     private String status;
