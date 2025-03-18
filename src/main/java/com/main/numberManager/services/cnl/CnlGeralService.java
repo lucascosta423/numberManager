@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -29,7 +30,7 @@ public class CnlGeralService implements IService<CnlGeralModel> {
     }
 
 
-    public CnlGeralModel findNumero(Integer prefixo,Integer valor,Integer codigoNacional){
+    public Optional<CnlGeralModel> findNumero(Integer prefixo, Integer valor, Integer codigoNacional){
         return cnlGeralRepository.findNumero(prefixo,valor,codigoNacional);
     }
 

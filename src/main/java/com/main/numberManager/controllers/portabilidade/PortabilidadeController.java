@@ -47,17 +47,13 @@ public class PortabilidadeController {
                 .orElseThrow(() -> new NotFoundException("Provedor Não Encontrado"));
         portabilidadeModel.setProvedor(provedorModel);
 
-        String doisPrimeiros = portabilidadeDTO.numero().substring(0, 2);
-        String quatroMeio = portabilidadeDTO.numero().substring(2, 6);
-        String quatroUltimos = portabilidadeDTO.numero().substring(6);
-
-        System.out.println();
-
-        CnlGeralModel cnlGeralModel = cnlGeralRepository.findNumero(Integer.parseInt(quatroMeio),Integer.parseInt(quatroUltimos),Integer.parseInt(doisPrimeiros));
-
-        System.out.println(cnlGeralModel.getCodigoCnl());
-
-        portabilidadeModel.setCodigoCnl(cnlGeralModel.getCodigoCnl());
+        CnlGeralModel cnlGeralModel = cnlGeralRepository.findNumero(
+                        portabilidadeDTO.prefixo(),
+                        portabilidadeDTO.mcdu(),
+                        portabilidadeDTO.codigoNacional()
+                )
+                .orElseThrow(() -> new NotFoundException("Numero não alocado"));
+        portabilidadeModel.setCnl(cnlGeralModel);
 
         return ResponseEntity.status(HttpStatus.OK).body(portabilidadeService.save(portabilidadeModel));
     }

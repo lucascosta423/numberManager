@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CnlGeralRepository extends JpaRepository<CnlGeralModel,Integer> {
 
@@ -13,7 +15,7 @@ public interface CnlGeralRepository extends JpaRepository<CnlGeralModel,Integer>
             "b.prefixo = :prefixo " +
             "AND :valor BETWEEN b.faixaInicial AND b.faixaFinal " +
             "AND b.codigoNacional = :codigoNacional")
-    CnlGeralModel findNumero(
+    Optional<CnlGeralModel> findNumero(
             @Param("prefixo") Integer prefixo,
             @Param("valor") Integer valor,
             @Param("codigoNacional") Integer codigoNacional);

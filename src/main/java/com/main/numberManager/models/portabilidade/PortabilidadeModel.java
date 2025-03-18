@@ -1,6 +1,7 @@
 package com.main.numberManager.models.portabilidade;
 
 
+import com.main.numberManager.models.cnl.CnlGeralModel;
 import com.main.numberManager.models.provedor.ProvedorModel;
 import com.main.numberManager.models.usuario.UsuarioModel;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "portabilidade")
-@Table(name = "so_portabilidade")
+@Table(name = "portabilidade")
 public class PortabilidadeModel {
 
     @Id
@@ -35,5 +36,7 @@ public class PortabilidadeModel {
     @JoinColumn(name = "provedor_id", nullable = false)
     private ProvedorModel provedor;
 
-    private Integer codigoCnl;
+    @ManyToOne
+    @JoinColumn(name = "numero_id", nullable = false)
+    private CnlGeralModel cnl;
 }

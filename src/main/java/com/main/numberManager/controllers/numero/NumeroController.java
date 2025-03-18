@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -41,7 +42,6 @@ public class NumeroController {
         }
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateNumero(@PathVariable(value = "id") Integer id,
                                                @RequestBody @Valid RequestNumeroDTO requestNumeroDTO){
@@ -53,6 +53,8 @@ public class NumeroController {
                 .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
         numeroModel.setProvedor(provedorModel);
 
+        numeroModel.setDataAtivacao(LocalDateTime.now());
+
         BeanUtils.copyProperties(
                 requestNumeroDTO,
                 numeroModel,
@@ -62,7 +64,7 @@ public class NumeroController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<NumeroModel>> getALlProvedor(
+    public ResponseEntity<Page<NumeroModel>> getAllNumeros(
             @PageableDefault(page = 0,
                     size = 10,
                     direction = Sort.Direction.ASC)

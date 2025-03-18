@@ -27,10 +27,8 @@ public class CnlGeralModel {
 
     private String uf;
 
-    @Column(precision = 10, scale = 0)
     private Integer codigoNacional;
 
-    @Column(precision = 10, scale = 0)
     private Integer prefixo;
 
 

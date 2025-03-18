@@ -21,13 +21,13 @@ public class NumeroModel {
     private Integer id;
 
     @Column(nullable = false,length = 2)
-    private String cn;
+    private Integer cn;
 
     @Column(nullable = false,length = 4)
-    private String prefixo;
+    private Integer prefixo;
 
     @Column(nullable = false,length = 4)
-    private String mcdu;
+    private Integer mcdu;
 
     @Column(nullable = false,length = 20)
     private String area;
