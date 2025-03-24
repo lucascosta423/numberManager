@@ -1,16 +1,13 @@
 package com.main.numberManager.models.portabilidade;
 
 
-import com.main.numberManager.models.cnl.CnlGeralModel;
+import com.main.numberManager.models.operadoras.Operadoras;
 import com.main.numberManager.models.provedor.ProvedorModel;
-import com.main.numberManager.models.usuario.UsuarioModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -38,5 +35,5 @@ public class PortabilidadeModel {
 
     @ManyToOne
     @JoinColumn(name = "numero_id", nullable = false)
-    private CnlGeralModel cnl;
+    private Operadoras cnl;
 }

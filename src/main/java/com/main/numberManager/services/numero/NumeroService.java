@@ -1,10 +1,8 @@
 package com.main.numberManager.services.numero;
 
-import com.main.numberManager.models.cnl.CnlGeralModel;
 import com.main.numberManager.models.numero.NumeroModel;
 import com.main.numberManager.repositorys.numeros.NumeroRepository;
 import com.main.numberManager.services.serviceImpl.IService;
-import com.main.numberManager.services.provedor.ProvedorService;
 import com.main.numberManager.utils.CnlUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

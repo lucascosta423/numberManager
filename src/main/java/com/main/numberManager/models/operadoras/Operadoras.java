@@ -1,4 +1,4 @@
-package com.main.numberManager.models.cnl;
+package com.main.numberManager.models.operadoras;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,12 +11,12 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name = "cnl_geral_model")
+@Table(name = "operadoras")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CnlGeralModel {
+public class Operadoras {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -31,7 +31,6 @@ public class CnlGeralModel {
 
     private Integer prefixo;
 
-
     private Integer faixaInicial;
 
 
@@ -44,7 +43,6 @@ public class CnlGeralModel {
     private String areaLocal;
 
     private String siglaAreaLocal;
-
 
     private Integer codigoArea;
 

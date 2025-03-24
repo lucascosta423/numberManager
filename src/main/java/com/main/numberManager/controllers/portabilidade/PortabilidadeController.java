@@ -2,11 +2,11 @@ package com.main.numberManager.controllers.portabilidade;
 
 import com.main.numberManager.dtos.portabilidade.RequestPortabilidadeDTO;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.cnl.CnlGeralModel;
+import com.main.numberManager.models.operadoras.Operadoras;
 import com.main.numberManager.models.portabilidade.PortabilidadeModel;
 import com.main.numberManager.models.provedor.ProvedorModel;
 import com.main.numberManager.models.usuario.UsuarioModel;
-import com.main.numberManager.repositorys.cnl.CnlGeralRepository;
+import com.main.numberManager.repositorys.cnl.OperadorasRepository;
 import com.main.numberManager.services.portabilidade.PortabilidadeService;
 import com.main.numberManager.services.provedor.ProvedorService;
 import com.main.numberManager.services.usuario.UsuarioService;
@@ -25,13 +25,13 @@ public class PortabilidadeController {
     private final PortabilidadeService portabilidadeService;
     private final UsuarioService usuarioService;
     private final ProvedorService provedorService;
-    private final CnlGeralRepository cnlGeralRepository;//
+    private final OperadorasRepository operadorasRepository;//
 
-    public PortabilidadeController(PortabilidadeService portabilidadeService, UsuarioService usuarioService, ProvedorService provedorService, CnlGeralRepository cnlGeralRepository){
+    public PortabilidadeController(PortabilidadeService portabilidadeService, UsuarioService usuarioService, ProvedorService provedorService, OperadorasRepository operadorasRepository){
         this.portabilidadeService = portabilidadeService;
         this.usuarioService = usuarioService;
         this.provedorService = provedorService;
-        this.cnlGeralRepository = cnlGeralRepository;
+        this.operadorasRepository = operadorasRepository;
     }
 
     @PostMapping("/save")
@@ -47,13 +47,13 @@ public class PortabilidadeController {
                 .orElseThrow(() -> new NotFoundException("Provedor Não Encontrado"));
         portabilidadeModel.setProvedor(provedorModel);
 
-        CnlGeralModel cnlGeralModel = cnlGeralRepository.findNumero(
+        Operadoras operadoras = operadorasRepository.findNumero(
                         portabilidadeDTO.prefixo(),
                         portabilidadeDTO.mcdu(),
                         portabilidadeDTO.codigoNacional()
                 )
                 .orElseThrow(() -> new NotFoundException("Numero não alocado"));
-        portabilidadeModel.setCnl(cnlGeralModel);
+        portabilidadeModel.setCnl(operadoras);
 
         return ResponseEntity.status(HttpStatus.OK).body(portabilidadeService.save(portabilidadeModel));
     }

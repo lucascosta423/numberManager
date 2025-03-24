@@ -1,8 +1,7 @@
 package com.main.numberManager.controllers.cnl;
 
-import com.main.numberManager.dtos.cnl.CodigoAreaDTO;
-import com.main.numberManager.models.cnl.CnlGeralModel;
-import com.main.numberManager.services.cnl.CnlGeralService;
+import com.main.numberManager.models.operadoras.Operadoras;
+import com.main.numberManager.services.cnl.OperadorasService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,33 +11,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/CnlGeral")
-public class CnlGeralController {
+public class OperadorasController {
 
-    private final CnlGeralService cnlGeralService;
+    private final OperadorasService operadorasService;
 
-    public CnlGeralController(CnlGeralService cnlGeralService) {
-        this.cnlGeralService = cnlGeralService;
+    public OperadorasController(OperadorasService operadorasService) {
+        this.operadorasService = operadorasService;
     }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file){
         try {
-            cnlGeralService.processFile(file);
+            operadorasService.processFile(file);
             return ResponseEntity.ok("File uploaded and processed successfully.");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
         }
     }
     @GetMapping
-    public ResponseEntity<Page<CnlGeralModel>> getByCodigoCnl(@PageableDefault(page = 0, size = 10,direction = Sort.Direction.ASC)Pageable pageable) {
-        Page<CnlGeralModel> pageResult = cnlGeralService.findAll(pageable);
+    public ResponseEntity<Page<Operadoras>> getByCodigoCnl(@PageableDefault(page = 0, size = 10,direction = Sort.Direction.ASC)Pageable pageable) {
+        Page<Operadoras> pageResult = operadorasService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(pageResult);
     }
 

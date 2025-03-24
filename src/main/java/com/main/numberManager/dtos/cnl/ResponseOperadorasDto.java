@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseCnlDto{
+public class ResponseOperadorasDto {
     private String nomePrestadora;
     private String cnpjPrestadora;
     private String uf;

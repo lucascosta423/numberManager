@@ -1,7 +1,7 @@
 package com.main.numberManager.services.cnl;
 
-import com.main.numberManager.models.cnl.CnlGeralModel;
-import com.main.numberManager.repositorys.cnl.CnlGeralRepository;
+import com.main.numberManager.models.operadoras.Operadoras;
+import com.main.numberManager.repositorys.cnl.OperadorasRepository;
 import com.main.numberManager.services.serviceImpl.IService;
 import com.main.numberManager.utils.CnlUtils;
 import com.main.numberManager.utils.StringUtils;
@@ -17,32 +17,32 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
-public class CnlGeralService implements IService<CnlGeralModel> {
-    private final CnlGeralRepository cnlGeralRepository;
+public class OperadorasService implements IService<Operadoras> {
+    private final OperadorasRepository operadorasRepository;
 
-    public CnlGeralService(CnlGeralRepository cnlGeralRepository) {
-        this.cnlGeralRepository = cnlGeralRepository;
+    public OperadorasService(OperadorasRepository operadorasRepository) {
+        this.operadorasRepository = operadorasRepository;
     }
 
 
-    public Page<CnlGeralModel> findAll(Pageable pageable) {
-        return cnlGeralRepository.findAll(pageable);
+    public Page<Operadoras> findAll(Pageable pageable) {
+        return operadorasRepository.findAll(pageable);
     }
 
 
-    public Optional<CnlGeralModel> findNumero(Integer prefixo, Integer valor, Integer codigoNacional){
-        return cnlGeralRepository.findNumero(prefixo,valor,codigoNacional);
+    public Optional<Operadoras> findNumero(Integer prefixo, Integer valor, Integer codigoNacional){
+        return operadorasRepository.findNumero(prefixo,valor,codigoNacional);
     }
 
     public void processFile(MultipartFile file) throws IOException {
         try (Stream<String> lines = CnlUtils.readerFile(file)) {
-            List<CnlGeralModel> batch = new ArrayList<>();
+            List<Operadoras> batch = new ArrayList<>();
             int batchSize = 1000; // Define o tamanho do lote
 
             lines.forEach(line -> {
                 if (!line.isEmpty()) {
-                    CnlGeralModel model = CnlUtils.mapToModel(StringUtils.cleanLineKeepingSeparator(line),
-                            CnlGeralModel.class);
+                    Operadoras model = CnlUtils.mapToModel(StringUtils.cleanLineKeepingSeparator(line),
+                            Operadoras.class);
 
                     batch.add(model);
 
@@ -59,8 +59,8 @@ public class CnlGeralService implements IService<CnlGeralModel> {
         }
     }
 
-    public void saveBatch(List<CnlGeralModel> batch) {
-        cnlGeralRepository.saveAll(batch);
+    public void saveBatch(List<Operadoras> batch) {
+        operadorasRepository.saveAll(batch);
     }
 
 }

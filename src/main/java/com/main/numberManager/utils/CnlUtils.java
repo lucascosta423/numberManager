@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class CnlUtils{
 
     public static Stream<String> readerFile(MultipartFile file) throws IOException {
-        return new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))
+        return new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.ISO_8859_1))
                 .lines()
                 .skip(1);
     }
