@@ -1,7 +1,7 @@
-package com.main.numberManager.services.cnl;
+package com.main.numberManager.services.operadoras;
 
 import com.main.numberManager.models.operadoras.Operadoras;
-import com.main.numberManager.repositorys.cnl.OperadorasRepository;
+import com.main.numberManager.repositorys.operadoras.OperadorasRepository;
 import com.main.numberManager.services.serviceImpl.IService;
 import com.main.numberManager.utils.CnlUtils;
 import com.main.numberManager.utils.StringUtils;

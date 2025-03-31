@@ -1,4 +1,4 @@
-package com.main.numberManager.repositorys.cnl;
+package com.main.numberManager.repositorys.operadoras;
 
 import com.main.numberManager.models.operadoras.Operadoras;
 import org.springframework.data.jpa.repository.JpaRepository;

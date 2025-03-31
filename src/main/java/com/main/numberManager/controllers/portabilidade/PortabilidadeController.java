@@ -6,7 +6,7 @@ import com.main.numberManager.models.operadoras.Operadoras;
 import com.main.numberManager.models.portabilidade.PortabilidadeModel;
 import com.main.numberManager.models.provedor.ProvedorModel;
 import com.main.numberManager.models.usuario.UsuarioModel;
-import com.main.numberManager.repositorys.cnl.OperadorasRepository;
+import com.main.numberManager.repositorys.operadoras.OperadorasRepository;
 import com.main.numberManager.services.portabilidade.PortabilidadeService;
 import com.main.numberManager.services.provedor.ProvedorService;
 import com.main.numberManager.services.usuario.UsuarioService;

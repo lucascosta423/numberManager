@@ -1,4 +1,4 @@
-package com.main.numberManager.dtos.cnl;
+package com.main.numberManager.dtos.operadoras;
 
 public record CodigoAreaDTO(String codigoArea) {
 }

@@ -1,7 +1,7 @@
-package com.main.numberManager.controllers.cnl;
+package com.main.numberManager.controllers.operadoras;
 
 import com.main.numberManager.models.operadoras.Operadoras;
-import com.main.numberManager.services.cnl.OperadorasService;
+import com.main.numberManager.services.operadoras.OperadorasService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/CnlGeral")
+@RequestMapping("/operadoras")
 public class OperadorasController {
 
     private final OperadorasService operadorasService;
