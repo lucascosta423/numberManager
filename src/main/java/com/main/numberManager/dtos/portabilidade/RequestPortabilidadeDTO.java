@@ -1,7 +1,5 @@
 package com.main.numberManager.dtos.portabilidade;
 
-import com.main.numberManager.models.provedor.ProvedorModel;
-
 public record RequestPortabilidadeDTO(
          Integer codigoNacional,
          Integer prefixo,

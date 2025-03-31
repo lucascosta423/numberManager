@@ -1,26 +1,25 @@
 package com.main.numberManager.dtos.operadoras;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.main.numberManager.models.OperadorasModel;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ResponseOperadorasDto {
-    private String nomePrestadora;
-    private String cnpjPrestadora;
-    private String uf;
-    private String codigoNacional;
-    private String prefixo;
-    private String faixaInicial;
-    private String faixaFinal;
-    private String codigoCNL;
-    private String nomeLocalidade;
-    private String areaLocal;
-    private String siglaAreaLocal;
-    private String codigoAreaLocal;
-    private String status;
+public record ResponseOperadorasDto (
+    String nomePrestadora,
+    Integer codigoNacional,
+    Integer prefixo,
+    Integer faixaInicial,
+    Integer faixaFinal,
+    Integer codigoCNL,
+    Integer codigoArea
+){
+    public static ResponseOperadorasDto fromEntity(OperadorasModel operadora) {
+        return new ResponseOperadorasDto(
+                operadora.getNomePrestadora(),
+                operadora.getCodigoNacional(),
+                operadora.getPrefixo(),
+                operadora.getFaixaInicial(),
+                operadora.getFaixaFinal(),
+                operadora.getCodigoCnl(),
+                operadora.getCodigoArea()
+        );
+    }
 }
