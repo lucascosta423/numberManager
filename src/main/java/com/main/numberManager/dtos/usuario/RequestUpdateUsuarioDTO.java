@@ -3,23 +3,20 @@ package com.main.numberManager.dtos.usuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
 
-public record RequestUpdateUsuarioDTO(
+@Getter
+public class RequestUpdateUsuarioDTO {
 
-        @NotBlank(message = "Nome não pode ser vazio ou nulo")
-        String nome,
-
+        String nome;
         @Email(message = "O e-mail deve ser válido")
-        @NotBlank(message = "Email não pode ser vazio")
+
         @Pattern(
                 regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
                 message = "O e-mail deve ser válido"
         )
-        String email,
+        String email;
 
-        @NotBlank(message = "Senha não pode ser vazia")
-        String senha
-
-) {
+        String senha;
 
 }

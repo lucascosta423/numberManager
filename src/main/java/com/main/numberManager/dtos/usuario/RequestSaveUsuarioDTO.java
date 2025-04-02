@@ -2,6 +2,7 @@ package com.main.numberManager.dtos.usuario;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record RequestSaveUsuarioDTO(
@@ -23,7 +24,7 @@ public record RequestSaveUsuarioDTO(
         @NotBlank(message = "Senha não pode ser vazia")
         String senha,
 
-        @NotBlank(message = "Id do provedor não pode ser vazio")
+        @NotNull(message = "Id do provedor não pode ser vazio")
         Integer provedor
 ) {
 }

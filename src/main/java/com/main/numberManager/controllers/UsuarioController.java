@@ -1,5 +1,6 @@
 package com.main.numberManager.controllers;
 
+import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
 import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.exeptions.NotFoundException;
@@ -7,6 +8,7 @@ import com.main.numberManager.models.ProvedorModel;
 import com.main.numberManager.models.UsuarioModel;
 import com.main.numberManager.repositorys.ProvedorRepository;
 import com.main.numberManager.services.UsuarioService;
+import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -54,14 +56,10 @@ public class UsuarioController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateUser(@PathVariable(value = "id") Integer id,
-                                             @Valid @RequestBody RequestSaveUsuarioDTO requestSaveUsuarioDTO){
-        UsuarioModel usuario = usuarioService.getById(id)
-                .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
+    public ResponseEntity<SucessResponse> updateUser(@PathVariable(value = "id") Integer id,
+                                                     @Valid @RequestBody RequestUpdateUsuarioDTO usuarioDto){
 
-        BeanUtils.copyProperties(requestSaveUsuarioDTO,usuario,"id");
-        usuarioService.save(usuario);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Usuario Atualizado com sucesso!");
+        SucessResponse response = usuarioService.updateUser(id,usuarioDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
