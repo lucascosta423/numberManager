@@ -1,5 +1,6 @@
 package com.main.numberManager.services;
 
+import com.main.numberManager.dtos.operadoras.ResponseNumeroPortabilidadeDTO;
 import com.main.numberManager.dtos.operadoras.ResponseOperadorasDto;
 import com.main.numberManager.models.OperadorasModel;
 import com.main.numberManager.repositorys.OperadorasRepository;
@@ -32,8 +33,8 @@ public class OperadorasService implements FileHandlingImp<OperadorasModel> {
     }
 
 
-    public Optional<Integer> findByCodigoCnl(Integer prefixo, Integer valor, Integer codigoNacional){
-        return operadorasRepository.findByCodigoCnl(prefixo,valor,codigoNacional);
+    public Optional<ResponseNumeroPortabilidadeDTO> findByNumeroPortabilidade(Integer prefixo, Integer mcdu, Integer codigoNacional){
+        return operadorasRepository.findByCodigoCnl(prefixo,mcdu,codigoNacional);
     }
 
     public void processFile(MultipartFile file) throws IOException {

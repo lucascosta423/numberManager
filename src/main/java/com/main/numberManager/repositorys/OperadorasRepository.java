@@ -1,5 +1,6 @@
 package com.main.numberManager.repositorys;
 
+import com.main.numberManager.dtos.operadoras.ResponseNumeroPortabilidadeDTO;
 import com.main.numberManager.models.OperadorasModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,11 +14,11 @@ public interface OperadorasRepository extends JpaRepository<OperadorasModel,Inte
 
     @Query("SELECT b.codigoCnl FROM OperadorasModel b WHERE " +
             "b.prefixo = :prefixo " +
-            "AND :valor BETWEEN b.faixaInicial AND b.faixaFinal " +
+            "AND :mcdu BETWEEN b.faixaInicial AND b.faixaFinal " +
             "AND b.codigoNacional = :codigoNacional")
-    Optional<Integer> findByCodigoCnl(
+    Optional<ResponseNumeroPortabilidadeDTO> findByCodigoCnl(
             @Param("prefixo") Integer prefixo,
-            @Param("valor") Integer valor,
+            @Param("mcdu") Integer mcdu,
             @Param("codigoNacional") Integer codigoNacional);
 
 }

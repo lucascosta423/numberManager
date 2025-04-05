@@ -1,12 +1,13 @@
 package com.main.numberManager.dtos.portabilidade;
 
+import java.util.List;
+import java.util.UUID;
+
 public record RequestPortabilidadeDTO(
-         Integer codigoNacional,
-         Integer prefixo,
-         Integer mcdu,
          String razao,
          String documento,
-         Integer usuario,
+         UUID usuario,
+         List<String> numero,
          Integer provedor
 ) {
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,17 +21,18 @@ public class PortabilidadeModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String numero;
-
     private String razao;
 
     private String documento;
 
-    private String usuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UsuarioModel usuario;
 
     @ManyToOne
     @JoinColumn(name = "provedor_id", nullable = false)
     private ProvedorModel provedor;
 
-    private Integer cnl;
+    @OneToMany(mappedBy = "portabilidadeModel", cascade = CascadeType.ALL)
+    private List<NumeroPortabilidadeModel> numeroPortabilidadeModel;
 }

@@ -1,16 +1,12 @@
 package com.main.numberManager.controllers;
 
+import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
-import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
-import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.ProvedorModel;
-import com.main.numberManager.models.UsuarioModel;
-import com.main.numberManager.repositorys.ProvedorRepository;
+import com.main.numberManager.services.ProvedorService;
 import com.main.numberManager.services.UsuarioService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,30 +15,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/usuario")
 
 public class UsuarioController {
     private final UsuarioService usuarioService;
-    private final ProvedorRepository provedorRepository;
 
-    public UsuarioController(UsuarioService usuarioService, ProvedorRepository provedorRepository) {
+    public UsuarioController(UsuarioService usuarioService, ProvedorService provedorService) {
         this.usuarioService = usuarioService;
-        this.provedorRepository = provedorRepository;
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveUsuario(@RequestBody @Valid RequestSaveUsuarioDTO requestSaveUsuarioDTO){
+    public ResponseEntity<SucessResponse> saveUsuario(@RequestBody @Valid RequestSaveUsuarioDTO requestSaveUsuarioDTO){
 
-        ProvedorModel provedor = provedorRepository.findById(requestSaveUsuarioDTO.provedor())
-                .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
+        var sucess = usuarioService.save(requestSaveUsuarioDTO);
 
-        var usuarioModel = new UsuarioModel();
-        BeanUtils.copyProperties(requestSaveUsuarioDTO,usuarioModel);
-
-        usuarioModel.setProvedor(provedor);
-        usuarioService.save(usuarioModel);
-       return ResponseEntity.status(HttpStatus.CREATED).body("Usuario criado com sucesso!");
+       return ResponseEntity.status(HttpStatus.CREATED).body(sucess);
     }
 
     @GetMapping("/list")
@@ -56,7 +46,7 @@ public class UsuarioController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<SucessResponse> updateUser(@PathVariable(value = "id") Integer id,
+    public ResponseEntity<SucessResponse> updateUser(@PathVariable(value = "id") UUID id,
                                                      @Valid @RequestBody RequestUpdateUsuarioDTO usuarioDto){
 
         SucessResponse response = usuarioService.updateUser(id,usuarioDto);
