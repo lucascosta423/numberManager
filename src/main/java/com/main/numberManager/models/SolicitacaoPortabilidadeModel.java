@@ -34,7 +34,7 @@ public class SolicitacaoPortabilidadeModel {
     @JoinColumn(name = "provedor_id", nullable = false)
     private ProvedorModel provedor;
 
-    @OneToMany(mappedBy = "solicitacaoPortabilidade", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "solicitacaoPortabilidadeModel", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<SolicitacaoNumeroModel> solicitacaoNumeroModel;
 }
