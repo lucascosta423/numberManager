@@ -1,5 +1,6 @@
 package com.main.numberManager.models;
 
+import com.main.numberManager.Enuns.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,14 +36,25 @@ public class NumeroModel {
 
     private String documento;
 
+
     private LocalDateTime dataAtivacao;
+    @PrePersist
+    private void onCreate(){
+        this.dataAtivacao = LocalDateTime.now();
+    }
 
     private LocalDateTime dataCancelamento;
+    @PreRemove
+    private void onRemove(){
+        this.dataCancelamento = LocalDateTime.now();
+    }
+
 
     @ManyToOne
     @JoinColumn(name = "id_provedor",nullable = false)
     private ProvedorModel provedor;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 }

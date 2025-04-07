@@ -4,6 +4,7 @@ import com.main.numberManager.dtos.provedor.ProvedorDTO;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.ProvedorModel;
 import com.main.numberManager.services.ProvedorService;
+import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -26,11 +27,11 @@ public class provedorController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ProvedorModel> saveProvedor(@RequestBody @Valid ProvedorDTO provedorDTO){
-            var model = new ProvedorModel();
+    public ResponseEntity<SucessResponse> saveProvedor(@RequestBody @Valid ProvedorDTO provedorDTO){
 
-            BeanUtils.copyProperties(provedorDTO, model);
-            return ResponseEntity.status(HttpStatus.CREATED).body(provedorService.save(model));
+        var success = provedorService.save(provedorDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(success);
     }
 
     @GetMapping
@@ -45,20 +46,20 @@ public class provedorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProvedorModel> getById(@PathVariable(value = "id") Integer id){
-        Optional<ProvedorModel> provedorModelOptional = provedorService.findById(id);
-
-        return provedorModelOptional.<ResponseEntity<ProvedorModel>>map(
-                provedorModel -> ResponseEntity.status(HttpStatus.OK).body(provedorModel))
-                .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
+        return ResponseEntity.status(HttpStatus.OK).body(provedorService.findById(id));
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<ProvedorModel> updateProvedor(@PathVariable(value = "id") Integer id,
+    public ResponseEntity<SucessResponse> updateProvedor(@PathVariable(value = "id") Integer id,
                                                  @RequestBody @Valid ProvedorDTO provedorDTO){
-        ProvedorModel provedorModel = provedorService.findById(id)
-                .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
+        var success = provedorService.updateProvedor(id, provedorDTO);
 
-        BeanUtils.copyProperties(provedorDTO,provedorModel,"id");
-        return ResponseEntity.status(HttpStatus.OK).body(provedorService.save(provedorModel));
+        return ResponseEntity.status(HttpStatus.OK).body(success);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<SucessResponse> inativaProvedor(@PathVariable(value = "id") Integer id){
+        var success = provedorService.deleteProvedor(id);
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

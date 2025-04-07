@@ -1,5 +1,6 @@
 package com.main.numberManager.services;
 
+import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.NumeroModel;
 import com.main.numberManager.repositorys.NumeroRepository;
 import com.main.numberManager.services.serviceImpl.FileHandlingImp;
@@ -28,8 +29,10 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
         return numeroRepository.save(numeroModel);
     }
 
-    public Optional<NumeroModel> findById(Integer id) {
-        return numeroRepository.findById(id);
+    public NumeroModel findById(Integer id) {
+
+        return numeroRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Numero não encontrado"));
     }
 
     public Page<NumeroModel> findAll(Pageable pageable) {

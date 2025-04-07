@@ -35,7 +35,7 @@ public class SolicitacaoNumeroModel {
 
     private String horaAgendamento;
 
-    private String status;
+    private String statusSolicitacao;
 
     @ManyToOne
     @JoinColumn(name = "port_ticket", nullable = false)

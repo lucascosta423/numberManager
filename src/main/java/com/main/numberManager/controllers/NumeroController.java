@@ -45,11 +45,9 @@ public class NumeroController {
     public ResponseEntity<Object> updateNumero(@PathVariable(value = "id") Integer id,
                                                @RequestBody @Valid RequestNumeroDTO requestNumeroDTO){
 
-        NumeroModel numeroModel = numeroService.findById(id)
-                .orElseThrow(() -> new NotFoundException("Numero não encontrado"));
+        NumeroModel numeroModel = numeroService.findById(id);
 
-        ProvedorModel provedorModel = provedorService.findById(requestNumeroDTO.idProvedor())
-                .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
+        ProvedorModel provedorModel = provedorService.findById(requestNumeroDTO.idProvedor());
         numeroModel.setProvedor(provedorModel);
 
         numeroModel.setDataAtivacao(LocalDateTime.now());

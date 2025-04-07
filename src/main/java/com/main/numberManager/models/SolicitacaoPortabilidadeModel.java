@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,8 +20,7 @@ import java.util.List;
 public class SolicitacaoPortabilidadeModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String id;
 
     private String razao;
 
@@ -29,6 +29,15 @@ public class SolicitacaoPortabilidadeModel {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private UsuarioModel usuario;
+
+    private LocalDateTime dataCriado;
+
+    @PrePersist
+    protected void onCreate() {
+        this.dataCriado = LocalDateTime.now();
+    }
+
+    private LocalDateTime dataFinalizado;
 
     @ManyToOne
     @JoinColumn(name = "provedor_id", nullable = false)

@@ -45,11 +45,17 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAllUsers(pageable));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<SucessResponse> updateUser(@PathVariable(value = "id") UUID id,
                                                      @Valid @RequestBody RequestUpdateUsuarioDTO usuarioDto){
 
         SucessResponse response = usuarioService.updateUser(id,usuarioDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<SucessResponse> deleteUser(@PathVariable(value = "id") UUID id){
+        SucessResponse response = usuarioService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

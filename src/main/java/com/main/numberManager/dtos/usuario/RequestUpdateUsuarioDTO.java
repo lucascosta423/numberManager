@@ -9,12 +9,11 @@ import lombok.Getter;
 public class RequestUpdateUsuarioDTO {
 
         String nome;
-        @Email(message = "O e-mail deve ser válido")
 
+        @Email(message = "O e-mail deve ser válido")
         @Pattern(
                 regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
-                message = "O e-mail deve ser válido"
-        )
+                message = "O e-mail deve ser válido")
         String email;
 
         String senha;

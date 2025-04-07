@@ -12,6 +12,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Random;
 
 @Service
 public class SolicitacaoPortabilidadeService {
@@ -28,17 +31,18 @@ public class SolicitacaoPortabilidadeService {
         this.solicitacaoNumeroService = solicitacaoNumeroService;
     }
 
+    @Transactional
     public SucessResponse save(SolicitacaoPortabilidadeDTO portabilidadeDTO) {
         var portabilidadeModel = new SolicitacaoPortabilidadeModel();
         BeanUtils.copyProperties(portabilidadeDTO,portabilidadeModel);
 
-        UsuarioModel usuarioModel = usuarioService.getByIdUser(portabilidadeDTO.usuario())
-                .orElseThrow(() -> new NotFoundException("Usuario Não Encontrado"));
+        UsuarioModel usuarioModel = usuarioService.findByIdUser(portabilidadeDTO.usuario());
         portabilidadeModel.setUsuario(usuarioModel);
 
-        ProvedorModel provedorModel = provedorService.findById(portabilidadeDTO.provedor())
-                .orElseThrow(() -> new NotFoundException("Provedor Não Encontrado"));
+        ProvedorModel provedorModel = provedorService.findById(portabilidadeDTO.provedor());
         portabilidadeModel.setProvedor(provedorModel);
+
+        portabilidadeModel.setId(gerarId());
 
         var portabilidadeSalva = solicitacaoPortabilidadeRepository.save(portabilidadeModel);
 
@@ -49,6 +53,13 @@ public class SolicitacaoPortabilidadeService {
 
     public Page<SolicitacaoPortabilidadeModel> findAll(Pageable pageable) {
         return solicitacaoPortabilidadeRepository.findAll(pageable);
+    }
+
+
+    private String gerarId() {
+        String prefixo = "SPOR";
+        int numero = new Random().nextInt(90000) + 10000;
+        return prefixo + numero;
     }
 
 }

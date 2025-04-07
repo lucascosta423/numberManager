@@ -1,5 +1,6 @@
 package com.main.numberManager.models;
 
+import com.main.numberManager.Enuns.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity(name = "usuario")
@@ -31,6 +33,15 @@ public class UsuarioModel {
 
     @Column(nullable = false)
     private String senha;
+
+    private LocalDateTime dataCriado;
+    @PrePersist
+    protected void onCreate() {
+        this.dataCriado = LocalDateTime.now();
+    }
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "provedor_id", nullable = false)

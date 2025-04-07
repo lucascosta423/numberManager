@@ -1,10 +1,13 @@
 package com.main.numberManager.models;
 
+import com.main.numberManager.Enuns.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 
 @Entity(name = "provedor")
@@ -29,4 +32,20 @@ public class ProvedorModel {
 
     @Column(nullable = false,unique = true,length = 70)
     private String email;
+
+    private LocalDateTime dataCriado;
+    @PrePersist
+    protected void onCreate() {
+        this.dataCriado = LocalDateTime.now();
+    }
+
+    private LocalDateTime dataAtualizacao;
+    @PreUpdate
+    protected void onUpdate() {
+        this.dataAtualizacao = LocalDateTime.now();
+    }
+
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }
