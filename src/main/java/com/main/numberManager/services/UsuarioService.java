@@ -27,7 +27,7 @@ public class UsuarioService {
         this.provedorService = provedorService;
     }
 
-    public SucessResponse save(RequestSaveUsuarioDTO usuarioDTO) {
+    public SucessResponse saveUser(RequestSaveUsuarioDTO usuarioDTO) {
 
         var usuarioModel = new UsuarioModel();
         BeanUtils.copyProperties(usuarioDTO,usuarioModel);
@@ -36,19 +36,13 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException("Provedor não encontrado"));
         usuarioModel.setProvedor(provedor);
 
-        var isSaved = usuarioRepository.save(usuarioModel);
-
-        System.out.println("Esta salvo? " + isSaved.toString());
-
         return new SucessResponse("Usuario Cadastrado com sucesso.","OK");
     }
 
     public SucessResponse updateUser(UUID id, RequestUpdateUsuarioDTO dto){
-        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findById(id);
 
-        if (usuarioOpt.isEmpty()) throw new NotFoundException("Usuario não encontrado");
-
-        var usuario = usuarioOpt.get();
+        UsuarioModel usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Usuario Nao encontrado"));
 
         if (dto.getNome() != null) usuario.setNome(dto.getNome());
         if (dto.getEmail() != null) usuario.setEmail(dto.getEmail());
@@ -56,17 +50,16 @@ public class UsuarioService {
 
         usuarioRepository.save(usuario);
 
-        var sucess = new SucessResponse("Usuario atualizado","Ok");
-
-        return sucess;
+        return new SucessResponse("Usuario atualizado","Ok");
     }
-    public Page<ResponseUsuarioDto> findAll(Pageable pageable) {
+
+    public Page<ResponseUsuarioDto> findAllUsers(Pageable pageable) {
 
         return usuarioRepository.findAll(pageable)
                 .map(ResponseUsuarioDto::fromEntity);
     }
 
-    public Optional<UsuarioModel> getById(UUID id) {
+    public Optional<UsuarioModel> getByIdUser(UUID id) {
         return usuarioRepository.findById(id);
     }
 }

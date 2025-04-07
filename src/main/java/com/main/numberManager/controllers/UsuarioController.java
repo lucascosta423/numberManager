@@ -30,7 +30,7 @@ public class UsuarioController {
     @PostMapping("/save")
     public ResponseEntity<SucessResponse> saveUsuario(@RequestBody @Valid RequestSaveUsuarioDTO requestSaveUsuarioDTO){
 
-        var sucess = usuarioService.save(requestSaveUsuarioDTO);
+        var sucess = usuarioService.saveUser(requestSaveUsuarioDTO);
 
        return ResponseEntity.status(HttpStatus.CREATED).body(sucess);
     }
@@ -42,7 +42,7 @@ public class UsuarioController {
                     size = 10,
                     direction = Sort.Direction.ASC)
             Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAll(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAllUsers(pageable));
     }
 
     @PutMapping("{id}")

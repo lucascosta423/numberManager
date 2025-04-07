@@ -4,10 +4,10 @@ import com.main.numberManager.models.OperadorasModel;
 
 public record ResponseOperadorasDto (
     String nomePrestadora,
-    Integer codigoNacional,
-    Integer prefixo,
-    Integer faixaInicial,
-    Integer faixaFinal,
+    String codigoNacional,
+    String prefixo,
+    String faixaInicial,
+    String faixaFinal,
     Integer codigoCNL,
     Integer codigoArea
 ){

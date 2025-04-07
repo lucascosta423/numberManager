@@ -1,6 +1,9 @@
 package com.main.numberManager.controllers;
 
+import com.main.numberManager.dtos.operadoras.RequestNumeroOperadoraDTO;
 import com.main.numberManager.dtos.operadoras.ResponseOperadorasDto;
+import com.main.numberManager.exeptions.NotFoundException;
+import com.main.numberManager.models.OperadorasModel;
 import com.main.numberManager.services.OperadorasService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,9 +37,21 @@ public class OperadorasController {
         }
     }
     @GetMapping("/list")
-    public ResponseEntity<Page<ResponseOperadorasDto>> getByCodigoCnl(@PageableDefault(page = 0, size = 20,direction = Sort.Direction.ASC)Pageable pageable) {
+    public ResponseEntity<Page<ResponseOperadorasDto>> findAll(@PageableDefault(page = 0, size = 20,direction = Sort.Direction.ASC)Pageable pageable) {
         Page<ResponseOperadorasDto> pageResult = operadorasService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(pageResult);
+    }
+
+    @GetMapping("/numero")
+    public ResponseEntity<OperadorasModel> getByNumero(@RequestBody RequestNumeroOperadoraDTO numeroOperadoraDTO){
+
+        var operadoraDTO = operadorasService.findByNumeroPortabilidade(
+                numeroOperadoraDTO.prefixo(),
+                numeroOperadoraDTO.mcdu(),
+                numeroOperadoraDTO.codigoNacional()
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(operadoraDTO);
     }
 
 }

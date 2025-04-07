@@ -1,7 +1,7 @@
 package com.main.numberManager.services;
 
-import com.main.numberManager.dtos.operadoras.ResponseNumeroPortabilidadeDTO;
 import com.main.numberManager.dtos.operadoras.ResponseOperadorasDto;
+import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.OperadorasModel;
 import com.main.numberManager.repositorys.OperadorasRepository;
 import com.main.numberManager.services.serviceImpl.FileHandlingImp;
@@ -33,8 +33,9 @@ public class OperadorasService implements FileHandlingImp<OperadorasModel> {
     }
 
 
-    public Optional<ResponseNumeroPortabilidadeDTO> findByNumeroPortabilidade(Integer prefixo, Integer mcdu, Integer codigoNacional){
-        return operadorasRepository.findByCodigoCnl(prefixo,mcdu,codigoNacional);
+    public OperadorasModel findByNumeroPortabilidade(String prefixo, String mcdu, String codigoNacional){
+       return operadorasRepository.findByCodigoCnl(prefixo,mcdu,codigoNacional)
+               .orElseThrow(() -> new NotFoundException("Numero nao encontrado"));
     }
 
     public void processFile(MultipartFile file) throws IOException {

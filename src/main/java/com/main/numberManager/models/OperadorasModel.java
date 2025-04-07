@@ -27,13 +27,13 @@ public class OperadorasModel {
 
     private String uf;
 
-    private Integer codigoNacional;
+    private String codigoNacional;
 
-    private Integer prefixo;
+    private String prefixo;
 
-    private Integer faixaInicial;
+    private String faixaInicial;
 
-    private Integer faixaFinal;
+    private String faixaFinal;
 
     private Integer codigoCnl;
 

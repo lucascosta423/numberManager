@@ -1,6 +1,7 @@
 package com.main.numberManager.models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,9 +14,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "portabilidade")
-@Table(name = "portabilidade")
-public class PortabilidadeModel {
+@Entity(name = "solicitacaoPortabilidade")
+@Table(name = "SO_Portabilidade")
+public class SolicitacaoPortabilidadeModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +34,7 @@ public class PortabilidadeModel {
     @JoinColumn(name = "provedor_id", nullable = false)
     private ProvedorModel provedor;
 
-    @OneToMany(mappedBy = "portabilidadeModel", cascade = CascadeType.ALL)
-    private List<NumeroPortabilidadeModel> numeroPortabilidadeModel;
+    @OneToMany(mappedBy = "solicitacaoPortabilidade", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<SolicitacaoNumeroModel> solicitacaoNumeroModel;
 }
