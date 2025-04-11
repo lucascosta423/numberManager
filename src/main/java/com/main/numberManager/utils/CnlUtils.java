@@ -39,8 +39,8 @@ public class CnlUtils{
         try {
             String[] parts = line.split(";");
 
-            if (parts.length < 10) { // Ajuste conforme o número de colunas esperado
-                throw new IllegalArgumentException("Linha inválida: " + line + " (Esperado >= 10 colunas, encontrado " + parts.length + ")");
+            if (parts.length < 3) { // Ajuste conforme o número de colunas esperado
+                throw new IllegalArgumentException("Linha inválida: " + line + " (Esperado >= 3 colunas, encontrado " + parts.length + ")");
             }
 
             T model = type.getDeclaredConstructor().newInstance();
@@ -57,6 +57,7 @@ public class CnlUtils{
 
                 if (partIndex < parts.length) {
                     String value = parts[partIndex].trim();
+
                     if (!value.isEmpty()) {
                         // Verifica o tipo do campo e converte adequadamente
                         if (field.getType().equals(Integer.class) || field.getType().equals(int.class)) {

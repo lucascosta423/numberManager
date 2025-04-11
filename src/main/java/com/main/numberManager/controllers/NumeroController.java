@@ -1,11 +1,13 @@
 package com.main.numberManager.controllers;
 
-import com.main.numberManager.dtos.numero.RequestNumeroDTO;
-import com.main.numberManager.exeptions.NotFoundException;
+import com.main.numberManager.Enuns.Status;
+import com.main.numberManager.dtos.numero.RequestNumeroUpdateDTO;
+import com.main.numberManager.dtos.numero.ResponseFindAllNumerosDto;
 import com.main.numberManager.models.NumeroModel;
 import com.main.numberManager.models.ProvedorModel;
 import com.main.numberManager.services.NumeroService;
 import com.main.numberManager.services.ProvedorService;
+import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -18,17 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/numero")
 public class NumeroController {
     private final NumeroService numeroService;
-    private final ProvedorService provedorService;
 
-    public NumeroController(NumeroService numeroService, ProvedorService provedorService) {
+    public NumeroController(NumeroService numeroService) {
         this.numeroService = numeroService;
-        this.provedorService = provedorService;
     }
 
     @PostMapping("/upload")
@@ -41,27 +40,16 @@ public class NumeroController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateNumero(@PathVariable(value = "id") Integer id,
-                                               @RequestBody @Valid RequestNumeroDTO requestNumeroDTO){
+    @PutMapping("update/{id}")
+    public ResponseEntity<SucessResponse> updateNumero(@PathVariable(value = "id") Integer id, @RequestBody @Valid RequestNumeroUpdateDTO dto){
 
-        NumeroModel numeroModel = numeroService.findById(id);
+        var success = numeroService.updateNumero(id,dto);
 
-        ProvedorModel provedorModel = provedorService.findById(requestNumeroDTO.idProvedor());
-        numeroModel.setProvedor(provedorModel);
-
-        numeroModel.setDataAtivacao(LocalDateTime.now());
-
-        BeanUtils.copyProperties(
-                requestNumeroDTO,
-                numeroModel,
-                "id","cn","mcdu","area","provedor"
-        );
-        return ResponseEntity.status(HttpStatus.OK).body(numeroService.save(numeroModel));
+        return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 
     @GetMapping
-    public ResponseEntity<Page<NumeroModel>> getAllNumeros(
+    public ResponseEntity<Page<ResponseFindAllNumerosDto>> getAllNumeros(
             @PageableDefault(page = 0,
                     size = 10,
                     direction = Sort.Direction.ASC)

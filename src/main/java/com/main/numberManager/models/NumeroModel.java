@@ -21,13 +21,13 @@ public class NumeroModel {
     private Integer id;
 
     @Column(nullable = false,length = 2)
-    private Integer cn;
+    private String cn;
 
     @Column(nullable = false,length = 4)
-    private Integer prefixo;
+    private String prefixo;
 
     @Column(nullable = false,length = 4)
-    private Integer mcdu;
+    private String mcdu;
 
     @Column(nullable = false,length = 20)
     private String area;
@@ -36,22 +36,20 @@ public class NumeroModel {
 
     private String documento;
 
-
     private LocalDateTime dataAtivacao;
     @PrePersist
     private void onCreate(){
         this.dataAtivacao = LocalDateTime.now();
     }
 
-    private LocalDateTime dataCancelamento;
-    @PreRemove
-    private void onRemove(){
-        this.dataCancelamento = LocalDateTime.now();
+    private LocalDateTime dataUpdate;
+    @PreUpdate
+    private void onUpdate(){
+        this.dataUpdate = LocalDateTime.now();
     }
 
-
     @ManyToOne
-    @JoinColumn(name = "id_provedor",nullable = false)
+    @JoinColumn(name = "id_provedor")
     private ProvedorModel provedor;
 
     @Enumerated(EnumType.STRING)
