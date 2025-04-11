@@ -4,7 +4,8 @@ public enum Status {
     A("Ativo"),
     I("Inativo"),
     P("Pendente"),
-    R("Resevado");
+    R("Resevado"),
+    N("Novo");
 
     Status(String descricao) {
     }

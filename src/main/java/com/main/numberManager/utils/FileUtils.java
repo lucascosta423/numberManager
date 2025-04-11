@@ -12,10 +12,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CnlUtils{
+public class FileUtils {
 
     public static Stream<String> readerFile(MultipartFile file) throws IOException {
         return new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.ISO_8859_1))
@@ -72,6 +73,24 @@ public class CnlUtils{
             return model;
         } catch (Exception e) {
             throw new RuntimeException("Erro ao mapear linha para " + type.getSimpleName(), e);
+        }
+    }
+
+    public static <T> T mapLineToModel(String line, String[] headers, Supplier<T> modelSupplier, FileMapper<T> mapper) {
+        try {
+            String[] parts = line.split(";");
+            T model = modelSupplier.get();
+
+            for (int i = 0; i < headers.length; i++) {
+                String header = headers[i].trim().toLowerCase();
+                String value = i < parts.length ? parts[i].trim() : "";
+                mapper.map(model, header, value);
+            }
+
+            return model;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao mapear linha: " + line, e);
         }
     }
 }

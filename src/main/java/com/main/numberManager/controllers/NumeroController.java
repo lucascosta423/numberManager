@@ -43,7 +43,7 @@ public class NumeroController {
     @PutMapping("update/{id}")
     public ResponseEntity<SucessResponse> updateNumero(@PathVariable(value = "id") Integer id, @RequestBody @Valid RequestNumeroUpdateDTO dto){
 
-        var success = numeroService.updateNumero(id,dto);
+        var success = numeroService.saveNumero(id,dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
