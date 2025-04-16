@@ -1,6 +1,8 @@
 package com.main.numberManager.services;
 
 
+import com.main.numberManager.Enuns.Status;
+import com.main.numberManager.dtos.portabilidade.ResponseSolicitacaoPortabilidadeDto;
 import com.main.numberManager.dtos.portabilidade.SolicitacaoPortabilidadeDTO;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.ProvedorModel;
@@ -36,11 +38,11 @@ public class SolicitacaoPortabilidadeService {
         var portabilidadeModel = new SolicitacaoPortabilidadeModel();
         BeanUtils.copyProperties(portabilidadeDTO,portabilidadeModel);
 
-        UsuarioModel usuarioModel = usuarioService.findByIdUser(portabilidadeDTO.usuario());
-        portabilidadeModel.setUsuario(usuarioModel);
+        portabilidadeModel.setStatus(Status.N);
 
-        ProvedorModel provedorModel = provedorService.findById(portabilidadeDTO.provedor());
-        portabilidadeModel.setProvedor(provedorModel);
+        portabilidadeModel.setUsuario(usuarioService.findByIdUser(portabilidadeDTO.usuario()));
+
+        portabilidadeModel.setProvedor(provedorService.findById(portabilidadeDTO.provedor()));
 
         portabilidadeModel.setId(gerarId());
 
@@ -51,8 +53,9 @@ public class SolicitacaoPortabilidadeService {
         return new SucessResponse("Solicitaçao criada com sucesso","OK");
     }
 
-    public Page<SolicitacaoPortabilidadeModel> findAll(Pageable pageable) {
-        return solicitacaoPortabilidadeRepository.findAll(pageable);
+    public Page<ResponseSolicitacaoPortabilidadeDto> findAll(Pageable pageable) {
+        return solicitacaoPortabilidadeRepository.findAll(pageable)
+                .map(ResponseSolicitacaoPortabilidadeDto::fromEntity);
     }
 
 

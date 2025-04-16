@@ -34,7 +34,7 @@ public class provedorController {
         return ResponseEntity.status(HttpStatus.CREATED).body(success);
     }
 
-    @GetMapping
+    @GetMapping("/listAll")
     public ResponseEntity<Page<ProvedorModel>> getALlProvedor(
             @PageableDefault(page = 0,
                     size = 10,
@@ -58,8 +58,8 @@ public class provedorController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<SucessResponse> inativaProvedor(@PathVariable(value = "id") Integer id){
-        var success = provedorService.deleteProvedor(id);
+    public ResponseEntity<SucessResponse> changeProviderStatus(@PathVariable(value = "id") Integer id){
+        var success = provedorService.changeProviderStatus(id);
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

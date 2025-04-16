@@ -31,6 +31,12 @@ public class SolicitacaoNumeroModel {
     @Column(nullable = false)
     private String nomePrestadora;
 
+    @Column(nullable = false)
+    private String nomeLocalidade;
+
+    @Column(nullable = false)
+    private String areaLocal;
+
     private String dataAgendamento;
 
     private String horaAgendamento;

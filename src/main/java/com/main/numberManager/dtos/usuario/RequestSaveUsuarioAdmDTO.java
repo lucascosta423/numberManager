@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record RequestSaveUsuarioDTO(
-
+public record RequestSaveUsuarioAdmDTO (
         @NotBlank(message = "Nome não pode ser vazio ou nulo")
         String nome,
 
@@ -25,9 +24,6 @@ public record RequestSaveUsuarioDTO(
 
         @NotBlank(message = "role não pode ser vazia")
         @NotNull(message = "role não pode ser null")
-        String role,
-
-        @NotNull(message = "Id do provedor não pode ser vazio")
-        Integer provedor
-) {
+        String role
+){
 }

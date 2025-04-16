@@ -2,6 +2,7 @@ package com.main.numberManager.models;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.main.numberManager.Enuns.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,4 +47,6 @@ public class SolicitacaoPortabilidadeModel {
     @OneToMany(mappedBy = "solicitacaoPortabilidadeModel", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<SolicitacaoNumeroModel> solicitacaoNumeroModel;
+
+    private Status status;
 }

@@ -25,23 +25,19 @@ public class ProvedorService {
         var model = new ProvedorModel();
         BeanUtils.copyProperties(dto, model);
 
-        Status status = Status.A;
-        model.setStatus(status);
+        model.setStatus(Status.A);
 
         provedorRepository.save(model);
 
         return new SucessResponse("Provedor Criado Com Sucesso", "OK");
     }
 
-    public SucessResponse deleteProvedor(Integer id){
+    public SucessResponse changeProviderStatus(Integer id){
         ProvedorModel provedorModel = findById(id);
 
-        Status statusInativo = Status.I;
-        if (!provedorModel.getStatus().equals(statusInativo)) {
-            provedorModel.setStatus(statusInativo);
-        }else {
-            Status statusAtivo = Status.A;
-            provedorModel.setStatus(statusAtivo);
+        switch (provedorModel.getStatus()){
+            case A -> provedorModel.setStatus(Status.I);
+            case I -> provedorModel.setStatus(Status.A);
         }
 
         provedorRepository.save(provedorModel);

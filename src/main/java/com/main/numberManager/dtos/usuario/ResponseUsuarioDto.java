@@ -6,6 +6,7 @@ import com.main.numberManager.models.UsuarioModel;
 import java.util.UUID;
 
 public record ResponseUsuarioDto(
+        UUID id,
         String nome,
         String email,
         String usuario,
@@ -14,6 +15,7 @@ public record ResponseUsuarioDto(
 ) {
     public static ResponseUsuarioDto fromEntity(UsuarioModel usuario) {
         return new ResponseUsuarioDto(
+                usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getUsuario(),

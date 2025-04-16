@@ -1,5 +1,6 @@
 package com.main.numberManager.controllers;
 
+import com.main.numberManager.dtos.usuario.RequestSaveUsuarioAdmDTO;
 import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
@@ -27,7 +28,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/save/user")
     public ResponseEntity<SucessResponse> saveUsuario(@RequestBody @Valid RequestSaveUsuarioDTO requestSaveUsuarioDTO){
 
         var sucess = usuarioService.saveUser(requestSaveUsuarioDTO);
@@ -35,7 +36,15 @@ public class UsuarioController {
        return ResponseEntity.status(HttpStatus.CREATED).body(sucess);
     }
 
-    @GetMapping("/list")
+    @PostMapping("/save/admin")
+    public ResponseEntity<SucessResponse> saveAdmin(@RequestBody @Valid RequestSaveUsuarioAdmDTO adminDTO){
+
+        var sucess = usuarioService.saveAdmin(adminDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(sucess);
+    }
+
+    @GetMapping("/listAll")
     public ResponseEntity<Page<ResponseUsuarioDto>> getAllUsuarios(
             @PageableDefault(
                     page = 0,
@@ -54,8 +63,8 @@ public class UsuarioController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<SucessResponse> deleteUser(@PathVariable(value = "id") UUID id){
-        SucessResponse response = usuarioService.deleteUser(id);
+    public ResponseEntity<SucessResponse> changeProviderStatus(@PathVariable(value = "id") UUID id){
+        SucessResponse response = usuarioService.changeProviderStatus(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

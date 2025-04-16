@@ -1,5 +1,6 @@
 package com.main.numberManager.controllers;
 
+import com.main.numberManager.dtos.portabilidade.ResponseSolicitacaoPortabilidadeDto;
 import com.main.numberManager.dtos.portabilidade.SolicitacaoPortabilidadeDTO;
 import com.main.numberManager.models.SolicitacaoPortabilidadeModel;
 import com.main.numberManager.services.SolicitacaoPortabilidadeService;
@@ -31,9 +32,9 @@ public class SolicitacaoPortabilidadeController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Page<SolicitacaoPortabilidadeModel>> listAll(@PageableDefault(
+    public ResponseEntity<Page<ResponseSolicitacaoPortabilidadeDto>> listAll(@PageableDefault(
             page = 0,
-            size = 10,
+            size = 20,
             direction = Sort.Direction.ASC)
                                                                  Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(solicitacaoPortabilidadeService.findAll(pageable));

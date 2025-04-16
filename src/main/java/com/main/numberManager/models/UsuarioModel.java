@@ -1,14 +1,20 @@
 package com.main.numberManager.models;
 
 import com.main.numberManager.Enuns.Status;
+import com.main.numberManager.Enuns.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "usuario")
@@ -17,7 +23,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioModel {
+public class UsuarioModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -34,6 +40,10 @@ public class UsuarioModel {
     @Column(nullable = false)
     private String senha;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     private LocalDateTime dataCriado;
     @PrePersist
     protected void onCreate() {
@@ -44,6 +54,22 @@ public class UsuarioModel {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "provedor_id", nullable = false)
+    @JoinColumn(name = "provedor_id")
     private ProvedorModel provedor;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return "";
+    }
+
+    @Override
+    public String getUsername() {
+        return this.usuario;
+    }
 }

@@ -1,6 +1,8 @@
 package com.main.numberManager.services;
 
 import com.main.numberManager.Enuns.Status;
+import com.main.numberManager.Enuns.UserRole;
+import com.main.numberManager.dtos.usuario.RequestSaveUsuarioAdmDTO;
 import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
@@ -12,6 +14,7 @@ import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,15 +38,37 @@ public class UsuarioService {
         var usuarioModel = new UsuarioModel();
         BeanUtils.copyProperties(usuarioDTO,usuarioModel);
 
-        var status = Status.A;
-        usuarioModel.setStatus(status);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(usuarioDTO.senha());
+        usuarioModel.setSenha(encryptedPassword);
 
-        ProvedorModel provedor = provedorService.findById(usuarioDTO.provedor());
-        usuarioModel.setProvedor(provedor);
+        usuarioModel.setStatus(Status.A);
+
+        if (usuarioDTO.role().equalsIgnoreCase("user")) {
+            usuarioModel.setRole(UserRole.USER);
+            usuarioModel.setProvedor(provedorService.findById(usuarioDTO.provedor()));
+        }
 
         usuarioRepository.save(usuarioModel);
 
         return new SucessResponse("Usuario Cadastrado com sucesso.","OK");
+    }
+
+    @Transactional
+    public SucessResponse saveAdmin(RequestSaveUsuarioAdmDTO adminDTO) {
+
+        var usuarioModel = new UsuarioModel();
+        BeanUtils.copyProperties(adminDTO,usuarioModel);
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(adminDTO.senha());
+        usuarioModel.setSenha(encryptedPassword);
+
+        usuarioModel.setStatus(Status.A);
+
+        usuarioModel.setRole(UserRole.ADMIN);
+
+        usuarioRepository.save(usuarioModel);
+
+        return new SucessResponse("Administrador Cadastrado com sucesso.","OK");
     }
 
     @Transactional
@@ -60,15 +85,13 @@ public class UsuarioService {
         return new SucessResponse("Usuario atualizado","Ok");
     }
 
-    public SucessResponse deleteUser(UUID id){
+    @Transactional
+    public SucessResponse changeProviderStatus(UUID id){
         var usuario = findByIdUser(id);
-        var statusInativo = Status.I;
 
-        if (!usuario.getStatus().equals(statusInativo)){
-            usuario.setStatus(statusInativo);
-        }else {
-            var statusAtivo = Status.A;
-            usuario.setStatus(statusAtivo);
+        switch (usuario.getStatus()){
+            case A -> usuario.setStatus(Status.I);
+            case I -> usuario.setStatus(Status.A);
         }
 
         usuarioRepository.save(usuario);
