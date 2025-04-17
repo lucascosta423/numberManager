@@ -20,10 +20,6 @@ public record RequestSaveUsuarioAdmDTO (
         String usuario,
 
         @NotBlank(message = "Senha não pode ser vazia")
-        String senha,
-
-        @NotBlank(message = "role não pode ser vazia")
-        @NotNull(message = "role não pode ser null")
-        String role
+        String senha
 ){
 }

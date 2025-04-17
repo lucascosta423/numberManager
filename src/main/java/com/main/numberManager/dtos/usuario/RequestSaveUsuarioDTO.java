@@ -23,10 +23,6 @@ public record RequestSaveUsuarioDTO(
         @NotBlank(message = "Senha não pode ser vazia")
         String senha,
 
-        @NotBlank(message = "role não pode ser vazia")
-        @NotNull(message = "role não pode ser null")
-        String role,
-
         @NotNull(message = "Id do provedor não pode ser vazio")
         Integer provedor
 ) {

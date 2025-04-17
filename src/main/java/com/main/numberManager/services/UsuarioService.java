@@ -43,10 +43,10 @@ public class UsuarioService {
 
         usuarioModel.setStatus(Status.A);
 
-        if (usuarioDTO.role().equalsIgnoreCase("user")) {
-            usuarioModel.setRole(UserRole.USER);
-            usuarioModel.setProvedor(provedorService.findById(usuarioDTO.provedor()));
-        }
+        usuarioModel.setRole(UserRole.USER);
+
+        usuarioModel.setProvedor(provedorService.findById(usuarioDTO.provedor()));
+
 
         usuarioRepository.save(usuarioModel);
 

@@ -65,7 +65,7 @@ public class UsuarioModel implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return this.senha;
     }
 
     @Override
