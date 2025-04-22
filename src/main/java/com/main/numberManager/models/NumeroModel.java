@@ -55,4 +55,8 @@ public class NumeroModel {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+
+    public String getNumero(){
+        return this.cn + this.prefixo + this.mcdu;
+    }
 }

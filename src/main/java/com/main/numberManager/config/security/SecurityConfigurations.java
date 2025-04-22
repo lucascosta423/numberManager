@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,15 +27,15 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/provedor/save").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/provedor/listAll").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/usuario/save/user").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/usuario/save/admin").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/usuario/listAll").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/provedor/*","/usuario/*","/numero/*","/operadoras/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/portabilidade/*").hasAnyRole("ADMIN","USER")
+                        .requestMatchers(HttpMethod.GET, "/usuario/*","provedor/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/usuario/*","provedor/*","/numero/resevar").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/numero/update/").hasAnyRole("ADMIN","USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

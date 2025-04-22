@@ -2,6 +2,7 @@ package com.main.numberManager.controllers;
 
 import com.main.numberManager.Enuns.Status;
 import com.main.numberManager.dtos.numero.RequestNumeroUpdateDTO;
+import com.main.numberManager.dtos.numero.RequestReserveNumberDTO;
 import com.main.numberManager.dtos.numero.ResponseFindAllNumerosDto;
 import com.main.numberManager.models.NumeroModel;
 import com.main.numberManager.models.ProvedorModel;
@@ -30,7 +31,7 @@ public class NumeroController {
         this.numeroService = numeroService;
     }
 
-    @PostMapping("/upload")
+    @PostMapping("upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file){
         try {
             numeroService.processFile(file);
@@ -41,19 +42,24 @@ public class NumeroController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<SucessResponse> updateNumero(@PathVariable(value = "id") Integer id, @RequestBody @Valid RequestNumeroUpdateDTO dto){
+    public ResponseEntity<SucessResponse> activateNumber(@PathVariable(value = "id") Integer id, @RequestBody @Valid RequestNumeroUpdateDTO dto){
 
-        var success = numeroService.saveNumero(id,dto);
+        var success = numeroService.activateNumber(id,dto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(success);
+    }
+
+    @PutMapping("resevar")
+    public ResponseEntity<SucessResponse> reserveNumber(@RequestBody @Valid RequestReserveNumberDTO dto){
+
+        var success = numeroService.reserveNumber(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 
     @GetMapping
     public ResponseEntity<Page<ResponseFindAllNumerosDto>> getAllNumeros(
-            @PageableDefault(page = 0,
-                    size = 10,
-                    direction = Sort.Direction.ASC)
-            Pageable pageable){
+            @PageableDefault(page = 0,size = 10,direction = Sort.Direction.ASC) Pageable pageable){
 
         return ResponseEntity.status(HttpStatus.OK).body(numeroService.findAll(pageable));
     }

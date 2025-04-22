@@ -48,5 +48,6 @@ public class SolicitacaoPortabilidadeModel {
     @JsonManagedReference
     private List<SolicitacaoNumeroModel> solicitacaoNumeroModel;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 }

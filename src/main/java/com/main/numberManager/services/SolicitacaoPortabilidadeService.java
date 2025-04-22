@@ -13,6 +13,7 @@ import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,28 +23,27 @@ import java.util.Random;
 public class SolicitacaoPortabilidadeService {
 
     private final SolicitacaoPortabilidadeRepository solicitacaoPortabilidadeRepository;
-    private final UsuarioService usuarioService;
-    private final ProvedorService provedorService;
     private final SolicitacaoNumeroService solicitacaoNumeroService;
 
-    public SolicitacaoPortabilidadeService(SolicitacaoPortabilidadeRepository solicitacaoPortabilidadeRepository, UsuarioService usuarioService, ProvedorService provedorService, SolicitacaoNumeroService solicitacaoNumeroService) {
+    public SolicitacaoPortabilidadeService(SolicitacaoPortabilidadeRepository solicitacaoPortabilidadeRepository, SolicitacaoNumeroService solicitacaoNumeroService) {
         this.solicitacaoPortabilidadeRepository = solicitacaoPortabilidadeRepository;
-        this.usuarioService = usuarioService;
-        this.provedorService = provedorService;
         this.solicitacaoNumeroService = solicitacaoNumeroService;
+    }
+
+    private UsuarioModel getUsuarioAtual() {
+        return (UsuarioModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @Transactional
     public SucessResponse save(SolicitacaoPortabilidadeDTO portabilidadeDTO) {
+        var usuario = getUsuarioAtual();
+
         var portabilidadeModel = new SolicitacaoPortabilidadeModel();
         BeanUtils.copyProperties(portabilidadeDTO,portabilidadeModel);
 
         portabilidadeModel.setStatus(Status.N);
-
-        portabilidadeModel.setUsuario(usuarioService.findByIdUser(portabilidadeDTO.usuario()));
-
-        portabilidadeModel.setProvedor(provedorService.findById(portabilidadeDTO.provedor()));
-
+        portabilidadeModel.setUsuario(usuario);
+        portabilidadeModel.setProvedor(usuario.getProvedor());
         portabilidadeModel.setId(gerarId());
 
         var portabilidadeSalva = solicitacaoPortabilidadeRepository.save(portabilidadeModel);
@@ -57,7 +57,6 @@ public class SolicitacaoPortabilidadeService {
         return solicitacaoPortabilidadeRepository.findAll(pageable)
                 .map(ResponseSolicitacaoPortabilidadeDto::fromEntity);
     }
-
 
     private String gerarId() {
         String prefixo = "SPOR";

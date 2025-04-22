@@ -9,8 +9,6 @@ public record RequestNumeroUpdateDTO(
         @NotBlank(message = "Documento não pode ser vazio")
         String documento,
 
-        String status,
-
-        Integer idProvedor
+        String status
 )
 {}

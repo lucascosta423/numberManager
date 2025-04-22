@@ -2,9 +2,12 @@ package com.main.numberManager.services;
 
 import com.main.numberManager.Enuns.Status;
 import com.main.numberManager.dtos.numero.RequestNumeroUpdateDTO;
+import com.main.numberManager.dtos.numero.RequestReserveNumberDTO;
 import com.main.numberManager.dtos.numero.ResponseFindAllNumerosDto;
+import com.main.numberManager.exeptions.BusinessException;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.NumeroModel;
+import com.main.numberManager.models.ProvedorModel;
 import com.main.numberManager.repositorys.NumeroRepository;
 import com.main.numberManager.services.serviceImpl.FileHandlingImp;
 import com.main.numberManager.utils.responseApi.SucessResponse;
@@ -33,16 +36,41 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
         this.provedorService = provedorService;
     }
 
-    public SucessResponse saveNumero(Integer id, RequestNumeroUpdateDTO dto){
+    public SucessResponse activateNumber(Integer id, RequestNumeroUpdateDTO dto){
 
         NumeroModel numeroModel = findById(id);
-        BeanUtils.copyProperties(dto,numeroModel,"id","cn","mcdu","area");
+        BeanUtils.copyProperties(dto,numeroModel,"id","cn","mcdu","area","provedor");
 
-        numeroModel.setProvedor(provedorService.findById(dto.idProvedor()));
+        numeroModel.setStatus(parseStatus(dto.status()));
 
-        numeroModel.setStatus(Status.valueOf(dto.status()));
+        return new SucessResponse("Numero ativado com sucesso","OK");
+    }
 
-        return new SucessResponse("Numero atualizado com sucesso","OK");
+    public SucessResponse reserveNumber(RequestReserveNumberDTO dto){
+
+        ProvedorModel provedorModel = provedorService.findById(dto.provedor());
+
+        if(provedorModel.getStatus().equals(Status.I)){
+            throw new BusinessException("Provedor inativo");
+        }
+
+        List<NumeroModel> numeros = numeroRepository.findAllById(dto.idsNumeros());
+
+        if(numeros.size() != dto.idsNumeros().size()){
+            throw new BusinessException("Um ou mais números não foram encontrados");
+        }
+
+        for (NumeroModel numero : numeros) {
+
+            if (!numero.getStatus().equals(Status.N)) {
+                throw new BusinessException("Número " + numero.getNumero() + " não está disponível para reserva");
+            }
+            numero.setStatus(Status.R);
+            numero.setProvedor(provedorModel);
+        }
+        numeroRepository.saveAll(numeros);
+
+        return new SucessResponse("Reserva de numeros realizada com sucesso","OK");
     }
 
     public NumeroModel findById(Integer id) {
@@ -55,6 +83,16 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
                 .map(ResponseFindAllNumerosDto::fromEntity);
     }
 
+    private Status parseStatus(String statusStr) {
+        try {
+            return Status.valueOf(statusStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new BusinessException("Status inválido: " + statusStr);
+        }
+    }
+
+
+    @Override
     public void processFile(MultipartFile file) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.ISO_8859_1))) {
             String headerLine = reader.readLine();

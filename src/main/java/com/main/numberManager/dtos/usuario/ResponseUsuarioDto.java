@@ -10,6 +10,7 @@ public record ResponseUsuarioDto(
         String nome,
         String email,
         String usuario,
+        String role,
         Status status,
         String provedor_name
 ) {
@@ -19,8 +20,9 @@ public record ResponseUsuarioDto(
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getUsuario(),
+                usuario.getRole().name(),
                 usuario.getStatus(),
-                usuario.getProvedor().getNome()
+                usuario.getProvedor()  != null ? usuario.getProvedor().getNome() : ""
         );
     }
 }
