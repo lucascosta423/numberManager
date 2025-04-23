@@ -7,7 +7,6 @@ import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.ProvedorModel;
 import com.main.numberManager.models.UsuarioModel;
 import com.main.numberManager.repositorys.UsuarioRepository;
 import com.main.numberManager.utils.responseApi.SucessResponse;
@@ -18,18 +17,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private  final ProvedorService provedorService;
+    private  final ProviderService providerService;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, ProvedorService provedorService) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ProviderService providerService) {
         this.usuarioRepository = usuarioRepository;
-        this.provedorService = provedorService;
+        this.providerService = providerService;
     }
 
     @Transactional
@@ -45,7 +43,7 @@ public class UsuarioService {
 
         usuarioModel.setRole(UserRole.USER);
 
-        usuarioModel.setProvedor(provedorService.findById(usuarioDTO.provedor()));
+        usuarioModel.setProvedor(providerService.findById(usuarioDTO.provedor()));
 
 
         usuarioRepository.save(usuarioModel);

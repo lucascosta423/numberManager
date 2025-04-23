@@ -1,13 +1,13 @@
-package com.main.numberManager.dtos.portabilidade;
+package com.main.numberManager.dtos.Portability;
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.models.SolicitacaoNumeroModel;
-import com.main.numberManager.models.SolicitacaoPortabilidadeModel;
+import com.main.numberManager.models.NumberForPortabilityModel;
+import com.main.numberManager.models.RequestPortabilityModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record ResponseSolicitacaoPortabilidadeDto(
+public record ResponsePortabilityDTO(
         String id,
         String razao,
         String documento,
@@ -16,10 +16,10 @@ public record ResponseSolicitacaoPortabilidadeDto(
         LocalDateTime dataCriado,
         LocalDateTime dataFinalizado,
         Status status,
-        List<SolicitacaoNumeroModel> solicitacoes
+        List<NumberForPortabilityModel> solicitacoes
 ) {
-    public static ResponseSolicitacaoPortabilidadeDto fromEntity(SolicitacaoPortabilidadeModel portabilidadeModel) {
-        return new ResponseSolicitacaoPortabilidadeDto(
+    public static ResponsePortabilityDTO fromEntity(RequestPortabilityModel portabilidadeModel) {
+        return new ResponsePortabilityDTO(
                 portabilidadeModel.getId(),
                 portabilidadeModel.getRazao(),
                 portabilidadeModel.getDocumento(),
@@ -28,7 +28,7 @@ public record ResponseSolicitacaoPortabilidadeDto(
                 portabilidadeModel.getDataCriado(),
                 portabilidadeModel.getDataFinalizado(),
                 portabilidadeModel.getStatus(),
-                portabilidadeModel.getSolicitacaoNumeroModel()
+                portabilidadeModel.getNumberForPortabilityModel()
         );
     }
 }

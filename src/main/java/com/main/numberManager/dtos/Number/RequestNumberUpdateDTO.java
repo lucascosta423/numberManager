@@ -1,8 +1,8 @@
-package com.main.numberManager.dtos.numero;
+package com.main.numberManager.dtos.Number;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record RequestNumeroUpdateDTO(
+public record RequestNumberUpdateDTO(
         @NotBlank(message = "Cliente não pode ser vazio")
         String cliente,
 

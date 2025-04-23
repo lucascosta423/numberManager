@@ -1,11 +1,11 @@
-package com.main.numberManager.dtos.numero;
+package com.main.numberManager.dtos.Number;
 
 import com.main.numberManager.Enuns.Status;
 import com.main.numberManager.models.NumeroModel;
 
 import java.time.LocalDateTime;
 
-public record ResponseFindAllNumerosDto(
+public record ResponseAllNumbersDto(
         Integer id,
         String cn,
         String prefixo,
@@ -17,8 +17,8 @@ public record ResponseFindAllNumerosDto(
         String provedor,
         Status status
 ) {
-    public static ResponseFindAllNumerosDto fromEntity(NumeroModel numeroModel) {
-        return new ResponseFindAllNumerosDto(
+    public static ResponseAllNumbersDto fromEntity(NumeroModel numeroModel) {
+        return new ResponseAllNumbersDto(
                 numeroModel.getId(),
                 numeroModel.getCn(),
                 numeroModel.getPrefixo(),

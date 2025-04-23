@@ -1,12 +1,10 @@
 package com.main.numberManager.controllers;
 
-import com.main.numberManager.dtos.provedor.ProvedorDTO;
-import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.ProvedorModel;
-import com.main.numberManager.services.ProvedorService;
+import com.main.numberManager.dtos.provider.RequestProviderDTO;
+import com.main.numberManager.models.ProviderModel;
+import com.main.numberManager.services.ProviderService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,51 +13,49 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/provedor")
-public class provedorController {
+public class ProviderController {
 
-    private final ProvedorService provedorService;
-    public provedorController(ProvedorService provedorService) {
-        this.provedorService = provedorService;
+    private final ProviderService providerService;
+    public ProviderController(ProviderService providerService) {
+        this.providerService = providerService;
     }
 
     @PostMapping("/save")
-    public ResponseEntity<SucessResponse> saveProvedor(@RequestBody @Valid ProvedorDTO provedorDTO){
+    public ResponseEntity<SucessResponse> saveProvedor(@RequestBody @Valid RequestProviderDTO requestProviderDTO){
 
-        var success = provedorService.save(provedorDTO);
+        var success = providerService.save(requestProviderDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(success);
     }
 
     @GetMapping("/listAll")
-    public ResponseEntity<Page<ProvedorModel>> getALlProvedor(
+    public ResponseEntity<Page<ProviderModel>> getALlProvedor(
             @PageableDefault(page = 0,
                     size = 10,
                     direction = Sort.Direction.ASC)
             Pageable pageable){
 
-        return ResponseEntity.status(HttpStatus.OK).body(provedorService.findAll(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(providerService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProvedorModel> getById(@PathVariable(value = "id") Integer id){
-        return ResponseEntity.status(HttpStatus.OK).body(provedorService.findById(id));
+    public ResponseEntity<ProviderModel> getById(@PathVariable(value = "id") Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(providerService.findById(id));
     }
 
     @PutMapping("update/{id}")
     public ResponseEntity<SucessResponse> updateProvedor(@PathVariable(value = "id") Integer id,
-                                                 @RequestBody @Valid ProvedorDTO provedorDTO){
-        var success = provedorService.updateProvedor(id, provedorDTO);
+                                                 @RequestBody @Valid RequestProviderDTO requestProviderDTO){
+        var success = providerService.updateProvedor(id, requestProviderDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<SucessResponse> changeProviderStatus(@PathVariable(value = "id") Integer id){
-        var success = provedorService.changeProviderStatus(id);
+        var success = providerService.changeProviderStatus(id);
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 }

@@ -1,13 +1,13 @@
 package com.main.numberManager.services;
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.dtos.numero.RequestNumeroUpdateDTO;
-import com.main.numberManager.dtos.numero.RequestReserveNumberDTO;
-import com.main.numberManager.dtos.numero.ResponseFindAllNumerosDto;
+import com.main.numberManager.dtos.Number.RequestNumberUpdateDTO;
+import com.main.numberManager.dtos.Number.RequestReserveNumberDTO;
+import com.main.numberManager.dtos.Number.ResponseAllNumbersDto;
 import com.main.numberManager.exeptions.BusinessException;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.NumeroModel;
-import com.main.numberManager.models.ProvedorModel;
+import com.main.numberManager.models.ProviderModel;
 import com.main.numberManager.repositorys.NumeroRepository;
 import com.main.numberManager.services.serviceImpl.FileHandlingImp;
 import com.main.numberManager.utils.responseApi.SucessResponse;
@@ -29,14 +29,14 @@ import static com.main.numberManager.utils.FileUtils.mapLineToModel;
 @Service
 public class NumeroService implements FileHandlingImp<NumeroModel> {
     private final NumeroRepository numeroRepository;
-    private final ProvedorService provedorService;
+    private final ProviderService providerService;
 
-    public NumeroService(NumeroRepository numeroRepository, ProvedorService provedorService) {
+    public NumeroService(NumeroRepository numeroRepository, ProviderService providerService) {
         this.numeroRepository = numeroRepository;
-        this.provedorService = provedorService;
+        this.providerService = providerService;
     }
 
-    public SucessResponse activateNumber(Integer id, RequestNumeroUpdateDTO dto){
+    public SucessResponse activateNumber(Integer id, RequestNumberUpdateDTO dto){
 
         NumeroModel numeroModel = findById(id);
         BeanUtils.copyProperties(dto,numeroModel,"id","cn","mcdu","area","provedor");
@@ -48,9 +48,9 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
 
     public SucessResponse reserveNumber(RequestReserveNumberDTO dto){
 
-        ProvedorModel provedorModel = provedorService.findById(dto.provedor());
+        ProviderModel providerModel = providerService.findById(dto.provedor());
 
-        if(provedorModel.getStatus().equals(Status.I)){
+        if(providerModel.getStatus().equals(Status.I)){
             throw new BusinessException("Provedor inativo");
         }
 
@@ -66,7 +66,7 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
                 throw new BusinessException("Número " + numero.getNumero() + " não está disponível para reserva");
             }
             numero.setStatus(Status.R);
-            numero.setProvedor(provedorModel);
+            numero.setProvedor(providerModel);
         }
         numeroRepository.saveAll(numeros);
 
@@ -78,9 +78,9 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
                 .orElseThrow(() -> new NotFoundException("Numero não encontrado"));
     }
 
-    public Page<ResponseFindAllNumerosDto> findAll(Pageable pageable) {
+    public Page<ResponseAllNumbersDto> findAll(Pageable pageable) {
         return numeroRepository.findAll(pageable)
-                .map(ResponseFindAllNumerosDto::fromEntity);
+                .map(ResponseAllNumbersDto::fromEntity);
     }
 
     private Status parseStatus(String statusStr) {
@@ -116,7 +116,7 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
                             case "documento" -> model.setDocumento(value);
                             case "provedor" -> {
                                 Integer idProvedor = Integer.parseInt(value);
-                                model.setProvedor(provedorService.findById(idProvedor));
+                                model.setProvedor(providerService.findById(idProvedor));
                             }
                             case "status" -> model.setStatus(Status.valueOf(value));
                         }

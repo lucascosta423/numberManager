@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -55,7 +54,7 @@ public class UsuarioModel implements UserDetails {
 
     @ManyToOne
     @JoinColumn(name = "provedor_id")
-    private ProvedorModel provedor;
+    private ProviderModel provedor;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

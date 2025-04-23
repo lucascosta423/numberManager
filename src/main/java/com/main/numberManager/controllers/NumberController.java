@@ -1,16 +1,11 @@
 package com.main.numberManager.controllers;
 
-import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.dtos.numero.RequestNumeroUpdateDTO;
-import com.main.numberManager.dtos.numero.RequestReserveNumberDTO;
-import com.main.numberManager.dtos.numero.ResponseFindAllNumerosDto;
-import com.main.numberManager.models.NumeroModel;
-import com.main.numberManager.models.ProvedorModel;
+import com.main.numberManager.dtos.Number.RequestNumberUpdateDTO;
+import com.main.numberManager.dtos.Number.RequestReserveNumberDTO;
+import com.main.numberManager.dtos.Number.ResponseAllNumbersDto;
 import com.main.numberManager.services.NumeroService;
-import com.main.numberManager.services.ProvedorService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,10 +19,10 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/numero")
-public class NumeroController {
+public class NumberController {
     private final NumeroService numeroService;
 
-    public NumeroController(NumeroService numeroService) {
+    public NumberController(NumeroService numeroService) {
         this.numeroService = numeroService;
     }
 
@@ -42,14 +37,14 @@ public class NumeroController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<SucessResponse> activateNumber(@PathVariable(value = "id") Integer id, @RequestBody @Valid RequestNumeroUpdateDTO dto){
+    public ResponseEntity<SucessResponse> activateNumber(@PathVariable(value = "id") Integer id, @RequestBody @Valid RequestNumberUpdateDTO dto){
 
         var success = numeroService.activateNumber(id,dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 
-    @PutMapping("resevar")
+    @PutMapping("reserve")
     public ResponseEntity<SucessResponse> reserveNumber(@RequestBody @Valid RequestReserveNumberDTO dto){
 
         var success = numeroService.reserveNumber(dto);
@@ -58,7 +53,7 @@ public class NumeroController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ResponseFindAllNumerosDto>> getAllNumeros(
+    public ResponseEntity<Page<ResponseAllNumbersDto>> getAllNumeros(
             @PageableDefault(page = 0,size = 10,direction = Sort.Direction.ASC) Pageable pageable){
 
         return ResponseEntity.status(HttpStatus.OK).body(numeroService.findAll(pageable));

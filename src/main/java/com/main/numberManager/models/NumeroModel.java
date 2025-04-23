@@ -50,7 +50,7 @@ public class NumeroModel {
 
     @ManyToOne
     @JoinColumn(name = "id_provedor")
-    private ProvedorModel provedor;
+    private ProviderModel provedor;
 
     @Enumerated(EnumType.STRING)
     private Status status;

@@ -1,4 +1,4 @@
-package com.main.numberManager.dtos.numero;
+package com.main.numberManager.dtos.Number;
 
 import java.util.Set;
 

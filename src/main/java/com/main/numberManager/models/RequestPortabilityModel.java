@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity(name = "solicitacaoPortabilidade")
 @Table(name = "SO_Portabilidade")
-public class SolicitacaoPortabilidadeModel {
+public class RequestPortabilityModel {
 
     @Id
     private String id;
@@ -42,11 +42,11 @@ public class SolicitacaoPortabilidadeModel {
 
     @ManyToOne
     @JoinColumn(name = "provedor_id", nullable = false)
-    private ProvedorModel provedor;
+    private ProviderModel provedor;
 
     @OneToMany(mappedBy = "solicitacaoPortabilidadeModel", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<SolicitacaoNumeroModel> solicitacaoNumeroModel;
+    private List<NumberForPortabilityModel> numberForPortabilityModel;
 
     @Enumerated(EnumType.STRING)
     private Status status;

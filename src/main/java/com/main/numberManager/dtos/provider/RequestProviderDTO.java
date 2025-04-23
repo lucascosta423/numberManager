@@ -1,4 +1,4 @@
-package com.main.numberManager.dtos.provedor;
+package com.main.numberManager.dtos.provider;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProvedorDTO {
+public class RequestProviderDTO {
 
     @NotBlank(message = "Nome não pode ser vazio ou nulo")
     private String nome;

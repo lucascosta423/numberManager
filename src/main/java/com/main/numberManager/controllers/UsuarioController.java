@@ -4,7 +4,7 @@ import com.main.numberManager.dtos.usuario.RequestSaveUsuarioAdmDTO;
 import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
-import com.main.numberManager.services.ProvedorService;
+import com.main.numberManager.services.ProviderService;
 import com.main.numberManager.services.UsuarioService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService, ProvedorService provedorService) {
+    public UsuarioController(UsuarioService usuarioService, ProviderService providerService) {
         this.usuarioService = usuarioService;
     }
 

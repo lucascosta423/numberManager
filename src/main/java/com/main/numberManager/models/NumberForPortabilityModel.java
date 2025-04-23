@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity(name = "solicitacaonumero")
 @Table(name = "SO_Numero")
-public class SolicitacaoNumeroModel {
+public class NumberForPortabilityModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -46,5 +46,5 @@ public class SolicitacaoNumeroModel {
     @ManyToOne
     @JoinColumn(name = "port_ticket", nullable = false)
     @JsonIgnore
-    private SolicitacaoPortabilidadeModel solicitacaoPortabilidadeModel;
+    private RequestPortabilityModel requestPortabilityModel;
 }
