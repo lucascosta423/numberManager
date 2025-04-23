@@ -8,8 +8,10 @@ import com.main.numberManager.exeptions.BusinessException;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.NumeroModel;
 import com.main.numberManager.models.ProviderModel;
+import com.main.numberManager.models.UsuarioModel;
 import com.main.numberManager.repositorys.NumeroRepository;
 import com.main.numberManager.services.serviceImpl.FileHandlingImp;
+import com.main.numberManager.utils.AuthenticatedUser;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ import static com.main.numberManager.utils.FileUtils.mapLineToModel;
 public class NumeroService implements FileHandlingImp<NumeroModel> {
     private final NumeroRepository numeroRepository;
     private final ProviderService providerService;
+    UsuarioModel usuario = AuthenticatedUser.user();
 
     public NumeroService(NumeroRepository numeroRepository, ProviderService providerService) {
         this.numeroRepository = numeroRepository;
@@ -79,8 +82,20 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
     }
 
     public Page<ResponseAllNumbersDto> findAll(Pageable pageable) {
-        return numeroRepository.findAll(pageable)
-                .map(ResponseAllNumbersDto::fromEntity);
+
+        if (isAdmin()) {
+            return numeroRepository.findAll(pageable)
+                    .map(ResponseAllNumbersDto::fromEntity);
+        }else {
+            return numeroRepository.findByProvedor(usuario.getProvedor(),pageable)
+                    .map(ResponseAllNumbersDto::fromEntity);
+        }
+
+    }
+
+    private boolean isAdmin() {
+        return usuario.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
     }
 
     private Status parseStatus(String statusStr) {
@@ -119,6 +134,9 @@ public class NumeroService implements FileHandlingImp<NumeroModel> {
                                 model.setProvedor(providerService.findById(idProvedor));
                             }
                             case "status" -> model.setStatus(Status.valueOf(value));
+                        }
+                        if (model.getStatus() == null) {
+                            model.setStatus(Status.N);
                         }
                     });
                     batch.add(numero);

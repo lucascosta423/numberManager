@@ -2,7 +2,8 @@ package com.main.numberManager.Enuns;
 
 public enum UserRole {
     ADMIN("admin"),
-    USER("user");
+    USER("user"),
+    SUPER_ADMIN("super_admin");
 
     private final String role;
 

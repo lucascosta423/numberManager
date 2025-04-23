@@ -52,7 +52,7 @@ public class NumberController {
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
 
-    @GetMapping
+    @GetMapping("list")
     public ResponseEntity<Page<ResponseAllNumbersDto>> getAllNumeros(
             @PageableDefault(page = 0,size = 10,direction = Sort.Direction.ASC) Pageable pageable){
 

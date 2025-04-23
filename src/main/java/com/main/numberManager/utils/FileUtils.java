@@ -1,5 +1,6 @@
 package com.main.numberManager.utils;
 
+import com.main.numberManager.models.NumeroModel;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,16 +82,37 @@ public class FileUtils {
             String[] parts = line.split(";");
             T model = modelSupplier.get();
 
-            for (int i = 0; i < headers.length; i++) {
+            // Processa apenas os campos disponíveis
+            int fieldsToProcess = Math.min(parts.length, headers.length);
+
+            for (int i = 0; i < fieldsToProcess; i++) {
                 String header = headers[i].trim().toLowerCase();
-                String value = i < parts.length ? parts[i].trim() : "";
+                String value = parts[i].trim();
+
+                if (value.isEmpty()) {
+                    continue; // Pula campos vazios
+                }
+
                 mapper.map(model, header, value);
             }
+
+            // Validação básica dos campos obrigatórios
+            validateRequiredFields(model);
 
             return model;
 
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao mapear linha: " + line, e);
+            throw new RuntimeException("Erro ao mapear linha: " + line + ". Causa: " + e.getMessage(), e);
+        }
+
+    }
+
+    private static void validateRequiredFields(Object model) {
+        if (model instanceof NumeroModel numeroModel) {
+            if (numeroModel.getCn() == null || numeroModel.getPrefixo() == null || numeroModel.getMcdu() == null) {
+                throw new IllegalArgumentException("Campos obrigatórios não podem ser nulos (cn, prefixo, mcdu)");
+            }
         }
     }
 }
+
