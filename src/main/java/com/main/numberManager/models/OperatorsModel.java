@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperadorasModel {
+public class OperatorsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

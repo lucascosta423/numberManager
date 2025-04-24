@@ -1,6 +1,6 @@
-package com.main.numberManager.dtos.operadoras;
+package com.main.numberManager.dtos.operators;
 
-import com.main.numberManager.models.OperadorasModel;
+import com.main.numberManager.models.OperatorsModel;
 
 public record ResponseOperadorasDto (
     String nomePrestadora,
@@ -11,7 +11,7 @@ public record ResponseOperadorasDto (
     Integer codigoCNL,
     Integer codigoArea
 ){
-    public static ResponseOperadorasDto fromEntity(OperadorasModel operadora) {
+    public static ResponseOperadorasDto fromEntity(OperatorsModel operadora) {
         return new ResponseOperadorasDto(
                 operadora.getNomePrestadora(),
                 operadora.getCodigoNacional(),

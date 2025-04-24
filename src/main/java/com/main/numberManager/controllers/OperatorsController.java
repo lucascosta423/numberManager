@@ -1,10 +1,10 @@
 package com.main.numberManager.controllers;
 
-import com.main.numberManager.dtos.operadoras.RequestNumeroOperadoraDTO;
-import com.main.numberManager.dtos.operadoras.ResponseOperadorasDto;
-import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.OperadorasModel;
-import com.main.numberManager.services.OperadorasService;
+import com.main.numberManager.dtos.operators.RequestNumeroOperadoraDTO;
+import com.main.numberManager.dtos.operators.ResponseOperadorasDto;
+import com.main.numberManager.models.OperatorsModel;
+import com.main.numberManager.services.FilesUpload.OperatorsFilesService;
+import com.main.numberManager.services.OperatorsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,18 +19,20 @@ import java.io.IOException;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/operadoras")
-public class OperadorasController {
+public class OperatorsController {
 
-    private final OperadorasService operadorasService;
+    private final OperatorsFilesService operatorsFilesService;
+    private final OperatorsService operatorsService;
 
-    public OperadorasController(OperadorasService operadorasService) {
-        this.operadorasService = operadorasService;
+    public OperatorsController(OperatorsFilesService operatorsFilesService, OperatorsService operatorsService) {
+        this.operatorsFilesService = operatorsFilesService;
+        this.operatorsService = operatorsService;
     }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file){
         try {
-            operadorasService.processFile(file);
+            operatorsFilesService.processFile(file);
             return ResponseEntity.ok("File uploaded and processed successfully.");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
@@ -38,14 +40,14 @@ public class OperadorasController {
     }
     @GetMapping("/list")
     public ResponseEntity<Page<ResponseOperadorasDto>> findAll(@PageableDefault(page = 0, size = 20,direction = Sort.Direction.ASC)Pageable pageable) {
-        Page<ResponseOperadorasDto> pageResult = operadorasService.findAll(pageable);
+        Page<ResponseOperadorasDto> pageResult = operatorsService.findAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(pageResult);
     }
 
     @GetMapping("/numero")
-    public ResponseEntity<OperadorasModel> getByNumero(@RequestBody RequestNumeroOperadoraDTO numeroOperadoraDTO){
+    public ResponseEntity<OperatorsModel> getByNumero(@RequestBody RequestNumeroOperadoraDTO numeroOperadoraDTO){
 
-        var operadoraDTO = operadorasService.findByNumeroPortabilidade(
+        var operadoraDTO = operatorsService.findByNumeroPortabilidade(
                 numeroOperadoraDTO.prefixo(),
                 numeroOperadoraDTO.mcdu(),
                 numeroOperadoraDTO.codigoNacional()

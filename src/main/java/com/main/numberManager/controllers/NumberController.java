@@ -3,6 +3,7 @@ package com.main.numberManager.controllers;
 import com.main.numberManager.dtos.Number.RequestNumberUpdateDTO;
 import com.main.numberManager.dtos.Number.RequestReserveNumberDTO;
 import com.main.numberManager.dtos.Number.ResponseAllNumbersDto;
+import com.main.numberManager.services.FilesUpload.NumberFilesService;
 import com.main.numberManager.services.NumeroService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
@@ -21,15 +22,17 @@ import java.io.IOException;
 @RequestMapping("/numero")
 public class NumberController {
     private final NumeroService numeroService;
+    private final NumberFilesService numberFilesService;
 
-    public NumberController(NumeroService numeroService) {
+    public NumberController(NumeroService numeroService, NumberFilesService numberFilesService) {
         this.numeroService = numeroService;
+        this.numberFilesService = numberFilesService;
     }
 
     @PostMapping("upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file){
         try {
-            numeroService.processFile(file);
+            numberFilesService.processFile(file);
             return ResponseEntity.ok("File uploaded and processed successfully.");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");

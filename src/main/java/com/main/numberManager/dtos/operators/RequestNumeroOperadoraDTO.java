@@ -1,4 +1,4 @@
-package com.main.numberManager.dtos.operadoras;
+package com.main.numberManager.dtos.operators;
 
 public record RequestNumeroOperadoraDTO(
         String codigoNacional,

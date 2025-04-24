@@ -11,11 +11,11 @@ import java.util.List;
 @Service
 public class NumberForPortabilityService {
     private final NumberForPortabilityRepository numberForPortabilityRepository;
-    private final OperadorasService operadorasService;
+    private final OperatorsService operatorsService;
 
-    public NumberForPortabilityService(NumberForPortabilityRepository numberForPortabilityRepository, OperadorasService operadorasService) {
+    public NumberForPortabilityService(NumberForPortabilityRepository numberForPortabilityRepository, OperatorsService operatorsService) {
         this.numberForPortabilityRepository = numberForPortabilityRepository;
-        this.operadorasService = operadorasService;
+        this.operatorsService = operatorsService;
     }
 
 
@@ -39,7 +39,7 @@ public class NumberForPortabilityService {
         String mcdu = numero.substring(6);
 
         NumberForPortabilityModel numeroPortado = new NumberForPortabilityModel();
-        var dadosOperadora = operadorasService.findByNumeroPortabilidade(prefixo, mcdu, codigoNacional);
+        var dadosOperadora = operatorsService.findByNumeroPortabilidade(prefixo, mcdu, codigoNacional);
 
         BeanUtils.copyProperties(dadosOperadora, numeroPortado, "id", "solicitacaoPortabilidadeModel", "numero");
 
