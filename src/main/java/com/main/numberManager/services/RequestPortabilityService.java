@@ -33,20 +33,16 @@ public class RequestPortabilityService {
     }
 
     @Transactional
-    public SucessResponse save(RequestPortabilityDTO portabilidadeDTO) {
-        var usuario = getUsuarioAtual();
+    public SucessResponse save(RequestPortabilityDTO dto) {
 
         var portabilidadeModel = new RequestPortabilityModel();
-        BeanUtils.copyProperties(portabilidadeDTO,portabilidadeModel);
+        BeanUtils.copyProperties(dto,portabilidadeModel);
 
-        portabilidadeModel.setStatus(Status.N);
-        portabilidadeModel.setUsuario(usuario);
-        portabilidadeModel.setProvedor(usuario.getProvedor());
-        portabilidadeModel.setId(gerarId());
+        fillDataPortability(portabilidadeModel);
 
-        var portabilidadeSalva = requestPortabilityRepository.save(portabilidadeModel);
+        var returnPortabilitySaved = requestPortabilityRepository.save(portabilidadeModel);
 
-        requestNumberService.createNumberListForPortability(portabilidadeSalva,portabilidadeDTO.numeros());
+        requestNumberService.createNumberListForPortability(returnPortabilitySaved,dto.numeros());
 
         return new SucessResponse("Solicitaçao criada com sucesso","OK");
     }
