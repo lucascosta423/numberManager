@@ -37,7 +37,7 @@ public class NumeroService{
     public SucessResponse activateNumber(Integer id, RequestNumberUpdateDTO dto){
 
         NumeroModel numeroModel = findById(id);
-        BeanUtils.copyProperties(dto,numeroModel,"id","cn","mcdu","area","provedor");
+        BeanUtils.copyProperties(dto,numeroModel,"id","cn","mcdu","area","provedor","status" );
 
         if (!isAdmin()) {
             numeroModel.setStatus(Status.P);
