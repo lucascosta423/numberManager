@@ -56,4 +56,28 @@ public class NumberForPortabilityService {
         return numeroPortado;
     }
 
+    private void updateNumberModelFields(NumberForPortabilityModel model, UpdateNumberForPortabilityDTO dto){
+        Optional.ofNullable(dto.status())
+                .filter(status -> !status.trim().isEmpty())
+                .ifPresent(status -> updateStatus(model,status));
+
+        Optional.ofNullable(dto.dataAgendamento())
+                .filter(data -> !data.trim().isEmpty())
+                .ifPresent(model::setDataAgendamento);
+
+        Optional.ofNullable(dto.horaAgendamento())
+                .filter(hora -> !hora.trim().isEmpty())
+                .ifPresent(model::setHoraAgendamento);
+    }
+
+    private void updateStatus(NumberForPortabilityModel model, String status) {
+        try {
+            StatusPortability statusEnum = StatusPortability.valueOf(status.trim().toUpperCase());
+            model.setStatusSolicitacao(statusEnum);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Status de portabilidade inválido: " + status);
+        }
+    }
+
+
 }
