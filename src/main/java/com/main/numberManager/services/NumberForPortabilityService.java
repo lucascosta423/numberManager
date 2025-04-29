@@ -39,16 +39,16 @@ public class NumberForPortabilityService {
         save(list);
     }
 
-    private NumberForPortabilityModel createNumberForPortability(String numero, RequestPortabilityModel solicitacao) {
+    private NumberForPortabilityModel createNumberForPortability(String numero, RequestPortabilityModel solicitation) {
 
-        String codigoNacional = numero.substring(0, 2);
-        String prefixo = numero.substring(2, 6);
-        String mcdu = numero.substring(6);
+        NumberForPortabilityModel numberForPortability = new NumberForPortabilityModel();
 
-        NumberForPortabilityModel numeroPortado = new NumberForPortabilityModel();
-        var dadosOperadora = operatorsService.findByNumeroPortabilidade(prefixo, mcdu, codigoNacional);
+        BeanUtils.copyProperties(getDadosOperadora(numero), numberForPortability, "id", "solicitacaoPortabilidadeModel", "numero");
 
-        BeanUtils.copyProperties(dadosOperadora, numeroPortado, "id", "solicitacaoPortabilidadeModel", "numero");
+        fillDataNumber(numberForPortability, numero, solicitation);
+
+        return numberForPortability;
+    }
 
     private void fillDataNumber(NumberForPortabilityModel numberForPortability, String numberToFill, RequestPortabilityModel solicitation) {
         numberForPortability.setId(gerarId());
