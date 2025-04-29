@@ -1,7 +1,9 @@
 package com.main.numberManager.controllers;
 
+import com.main.numberManager.dtos.Portability.UpdateDocumentOrReason;
 import com.main.numberManager.dtos.Portability.ResponsePortabilityDTO;
 import com.main.numberManager.dtos.Portability.RequestPortabilityDTO;
+import com.main.numberManager.dtos.Portability.UpdateNumberForPortabilityDTO;
 import com.main.numberManager.services.RequestPortabilityService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import jakarta.validation.Valid;
