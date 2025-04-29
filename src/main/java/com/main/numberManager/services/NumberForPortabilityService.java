@@ -50,8 +50,12 @@ public class NumberForPortabilityService {
 
         BeanUtils.copyProperties(dadosOperadora, numeroPortado, "id", "solicitacaoPortabilidadeModel", "numero");
 
-        numeroPortado.setNumero(numero);
-        numeroPortado.setRequestPortabilityModel(solicitacao);
+    private void fillDataNumber(NumberForPortabilityModel numberForPortability, String numberToFill, RequestPortabilityModel solicitation) {
+        numberForPortability.setId(gerarId());
+        numberForPortability.setStatusSolicitacao(StatusPortability.P);
+        numberForPortability.setNumero(numberToFill);
+        numberForPortability.setRequestPortabilityModel(solicitation);
+    }
 
     private OperatorsModel getDadosOperadora(String numero) {
         return operatorsService.findByNumeroPortabilidade(
