@@ -43,7 +43,7 @@ public class RequestPortabilityModel {
     @JoinColumn(name = "provedor_id", nullable = false)
     private ProviderModel provedor;
 
-    @OneToMany(mappedBy = "requestPortabilityModel", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "requestPortabilityModel")
     @JsonManagedReference
     private List<NumberForPortabilityModel> numberForPortabilityModel;
 
