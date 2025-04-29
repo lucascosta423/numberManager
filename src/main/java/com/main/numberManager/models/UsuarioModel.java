@@ -85,4 +85,24 @@ public class UsuarioModel implements UserDetails {
     public String getUsername() {
         return this.usuario;
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.status == Status.A;
+    }
+
 }
