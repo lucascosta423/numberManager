@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface NumberForPortabilityRepository extends JpaRepository<NumberForPortabilityModel, UUID> {
+public interface NumberForPortabilityRepository extends JpaRepository<NumberForPortabilityModel, String> {
 }
