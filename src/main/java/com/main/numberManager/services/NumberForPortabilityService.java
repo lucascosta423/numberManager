@@ -26,13 +26,8 @@ public class NumberForPortabilityService {
     }
 
 
-    private void save(List<NumberForPortabilityModel> listaNumeros){
-        numberForPortabilityRepository.saveAll(listaNumeros);
-    }
-
-
-    public void createNumberListForPortability(RequestPortabilityModel solicitacao, List<String> numeros) {
-        List<NumberForPortabilityModel> list = numeros.stream()
+    public void createNumberListForPortability(RequestPortabilityModel solicitacao, List<String> numberList) {
+        List<NumberForPortabilityModel> list = numberList.stream()
                 .map(numero -> createNumberForPortability(numero, solicitacao))
                 .toList();
 
