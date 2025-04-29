@@ -39,7 +39,13 @@ public class NumeroService{
         NumeroModel numeroModel = findById(id);
         BeanUtils.copyProperties(dto,numeroModel,"id","cn","mcdu","area","provedor");
 
-        numeroModel.setStatus(parseStatus(dto.status()));
+        if (!isAdmin()) {
+            numeroModel.setStatus(Status.P);
+            return new SucessResponse("Solicitacao de ativacao criada com sucesso","OK");
+        }
+
+        numeroModel.setStatus(Status.A);
+        numeroRepository.save(numeroModel);
 
         return new SucessResponse("Numero ativado com sucesso","OK");
     }
