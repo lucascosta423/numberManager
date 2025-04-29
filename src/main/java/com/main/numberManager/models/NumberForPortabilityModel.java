@@ -2,6 +2,7 @@ package com.main.numberManager.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.main.numberManager.Enuns.StatusPortability;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
