@@ -98,8 +98,8 @@ public class RequestPortabilityService {
 
     private String gerarId() {
         String prefixo = "SPOR";
-        int numero = new Random().nextInt(90000) + 10000;
-        return prefixo + numero;
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 5).toUpperCase();
+        return prefixo + uuid;
     }
 
     public SucessResponse updateNumber(String id, UpdateNumberForPortabilityDTO dto) {
