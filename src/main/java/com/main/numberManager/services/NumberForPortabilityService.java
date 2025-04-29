@@ -36,7 +36,33 @@ public class NumberForPortabilityService {
                 .map(numero -> createNumberForPortability(numero, solicitacao))
                 .toList();
 
-        save(list);
+        saveAll(list);
+    }
+
+    private void saveAll(List<NumberForPortabilityModel> listaNumeros){
+        numberForPortabilityRepository.saveAll(listaNumeros);
+    }
+
+    private void save(NumberForPortabilityModel model) {
+        try {
+            numberForPortabilityRepository.save(model);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao salvar atualização da portabilidade", e);
+        }
+    }
+
+    public SucessResponse update(String id, UpdateNumberForPortabilityDTO dto){
+        NumberForPortabilityModel numberForPortabilityModel = findById(id);
+
+        updateNumberModelFields(numberForPortabilityModel, dto);
+        save(numberForPortabilityModel);
+
+        return new SucessResponse("Solicitacao atualizada com sucesso","OK");
+    }
+
+    private NumberForPortabilityModel findById(String id){
+        return numberForPortabilityRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Solicitacao para o Numero nao encontrado"));
     }
 
     private NumberForPortabilityModel createNumberForPortability(String numero, RequestPortabilityModel solicitation) {
