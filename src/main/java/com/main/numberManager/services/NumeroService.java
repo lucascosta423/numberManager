@@ -10,7 +10,6 @@ import com.main.numberManager.models.NumeroModel;
 import com.main.numberManager.models.ProviderModel;
 import com.main.numberManager.models.UsuarioModel;
 import com.main.numberManager.repositorys.NumeroRepository;
-import com.main.numberManager.utils.AuthenticatedUser;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
