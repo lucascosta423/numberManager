@@ -32,7 +32,6 @@ public class RequestPortabilityModel {
     private UsuarioModel usuario;
 
     private LocalDateTime dataCriado;
-
     @PrePersist
     protected void onCreate() {
         this.dataCriado = LocalDateTime.now();
