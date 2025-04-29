@@ -53,7 +53,18 @@ public class NumberForPortabilityService {
         numeroPortado.setNumero(numero);
         numeroPortado.setRequestPortabilityModel(solicitacao);
 
-        return numeroPortado;
+    private OperatorsModel getDadosOperadora(String numero) {
+        return operatorsService.findByNumeroPortabilidade(
+                numero.substring(0, 2),
+                numero.substring(2, 6),
+                numero.substring(6)
+        );
+    }
+
+    private String gerarId() {
+        String prefixo = "SNUM";
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 5).toUpperCase();
+        return prefixo + uuid;
     }
 
     private void updateNumberModelFields(NumberForPortabilityModel model, UpdateNumberForPortabilityDTO dto){
