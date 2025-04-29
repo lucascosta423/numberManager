@@ -40,7 +40,7 @@ public class NumberForPortabilityModel {
 
     private String horaAgendamento;
 
-    private String statusSolicitacao;
+    private StatusPortability statusSolicitacao;
 
     @ManyToOne
     @JoinColumn(name = "port_ticket", nullable = false)
