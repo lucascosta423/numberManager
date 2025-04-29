@@ -30,6 +30,21 @@ public class RequestPortabilityController {
         return ResponseEntity.status(HttpStatus.OK).body(requestPortabilityService.save(portabilidadeDTO));
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SucessResponse> updateDocumentAndReason(@PathVariable(value = "id") String id, @RequestBody UpdateDocumentOrReason dto){
+        return ResponseEntity.status(HttpStatus.OK).body(requestPortabilityService.updateDocumentOrReason(id, dto));
+    }
+
+    @PutMapping("/update/status/{id}")
+    public ResponseEntity<SucessResponse> updateStatus(@PathVariable(value = "id") String id){
+        return ResponseEntity.status(HttpStatus.OK).body(requestPortabilityService.updateStatus(id));
+    }
+
+    @PutMapping("/update/number/{id}")
+    public ResponseEntity<SucessResponse> updateNumber(@PathVariable(value = "id") String id, @RequestBody UpdateNumberForPortabilityDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).body(requestPortabilityService.updateNumber(id,dto));
+    }
+
     @GetMapping("/list")
     public ResponseEntity<Page<ResponsePortabilityDTO>> listAll(@PageableDefault(
             page = 0,
