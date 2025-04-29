@@ -2,8 +2,11 @@ package com.main.numberManager.services;
 
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.dtos.Portability.ResponsePortabilityDTO;
 import com.main.numberManager.dtos.Portability.RequestPortabilityDTO;
+import com.main.numberManager.dtos.Portability.UpdateDocumentOrReason;
+import com.main.numberManager.dtos.Portability.ResponsePortabilityDTO;
+import com.main.numberManager.dtos.Portability.UpdateNumberForPortabilityDTO;
+import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.RequestPortabilityModel;
 import com.main.numberManager.models.UsuarioModel;
 import com.main.numberManager.repositorys.RequestPortabilityRepository;
@@ -15,7 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Random;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RequestPortabilityService {
