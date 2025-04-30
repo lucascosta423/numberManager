@@ -83,6 +83,7 @@ public class RequestPortabilityService {
     public SucessResponse updateStatus(String id){
         RequestPortabilityModel portabilidadeModel = findById(id);
         portabilidadeModel.setStatus(Status.F);
+        portabilidadeModel.setDataFinalizado(LocalDateTime.now());
         requestPortabilityRepository.save(portabilidadeModel);
         return new SucessResponse("Solicitacao finalizada com sucesso","OK");
     }
