@@ -33,7 +33,7 @@ public class RequestPortabilityController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<SucessResponse> updateDocumentAndReason(@PathVariable(value = "id") String id, @RequestBody UpdateDocumentOrReason dto){
+    public ResponseEntity<SucessResponse> updateDocumentOrReason(@PathVariable(value = "id") String id, @RequestBody UpdateDocumentOrReason dto){
         return ResponseEntity.status(HttpStatus.OK).body(requestPortabilityService.updateDocumentOrReason(id, dto));
     }
 
