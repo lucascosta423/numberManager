@@ -16,9 +16,10 @@ public interface OperatorsRepository extends JpaRepository<OperatorsModel,Intege
             "AND :mcdu BETWEEN b.faixaInicial AND b.faixaFinal " +
             "AND b.codigoNacional = :codigoNacional")
     Optional<OperatorsModel> findByNumero(
+            @Param("codigoNacional") String codigoNacional,
             @Param("prefixo") String prefixo,
-            @Param("mcdu") String mcdu,
-            @Param("codigoNacional") String codigoNacional);
+            @Param("mcdu") String mcdu
+    );
 
 }
 
