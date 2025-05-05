@@ -4,6 +4,7 @@ import com.main.numberManager.dtos.provider.RequestProviderDTO;
 import com.main.numberManager.models.ProviderModel;
 import com.main.numberManager.services.ProviderService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Provedor", description = "API REST para gerenciamento de provedores")
 @RestController
 @RequestMapping("/provedor")
 public class ProviderController {

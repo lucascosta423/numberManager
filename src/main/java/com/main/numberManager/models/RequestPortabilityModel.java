@@ -27,9 +27,11 @@ public class RequestPortabilityModel {
 
     private String documento;
 
+    private String fileFatura;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    private UsuarioModel usuario;
+    private UserModel usuario;
 
     private LocalDateTime dataCriado;
     @PrePersist

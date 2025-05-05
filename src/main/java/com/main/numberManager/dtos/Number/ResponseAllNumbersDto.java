@@ -7,26 +7,26 @@ import java.time.LocalDateTime;
 
 public record ResponseAllNumbersDto(
         Integer id,
-        String cn,
-        String prefixo,
-        String mcdu,
+        String numero,
         String area,
         String cliente,
         String documento,
         LocalDateTime dataAtivacao,
+        LocalDateTime dataSolicitacao,
+        LocalDateTime dataResevada,
         String provedor,
         Status status
 ) {
     public static ResponseAllNumbersDto fromEntity(NumeroModel numeroModel) {
         return new ResponseAllNumbersDto(
                 numeroModel.getId(),
-                numeroModel.getCn(),
-                numeroModel.getPrefixo(),
-                numeroModel.getMcdu(),
+                numeroModel.getNumero(),
                 numeroModel.getArea(),
                 numeroModel.getCliente(),
                 numeroModel.getDocumento(),
                 numeroModel.getDataAtivacao(),
+                numeroModel.getDataSolicitacao(),
+                numeroModel.getDataResevada(),
                 numeroModel.getProvedor()  != null ? numeroModel.getProvedor().getNome() : "",
                 numeroModel.getStatus()
         );

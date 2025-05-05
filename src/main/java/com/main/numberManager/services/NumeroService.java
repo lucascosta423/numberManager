@@ -8,52 +8,59 @@ import com.main.numberManager.exeptions.BusinessException;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.NumeroModel;
 import com.main.numberManager.models.ProviderModel;
-import com.main.numberManager.models.UsuarioModel;
 import com.main.numberManager.repositorys.NumeroRepository;
+import com.main.numberManager.utils.AuthUtils;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class NumeroService{
     private final NumeroRepository numeroRepository;
     private final ProviderService providerService;
+    private final AuthUtils authUtils;
 
-    public NumeroService(NumeroRepository numeroRepository, ProviderService providerService) {
+    public NumeroService(NumeroRepository numeroRepository, ProviderService providerService, AuthUtils authUtils) {
         this.numeroRepository = numeroRepository;
         this.providerService = providerService;
+        this.authUtils = authUtils;
     }
 
-    public static UsuarioModel AuthenticatedUser() {
-        return (UsuarioModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
-    public SucessResponse activateNumber(Integer id, RequestNumberUpdateDTO dto){
+    public SucessResponse requestNumberActivate(Integer id, RequestNumberUpdateDTO dto){
 
         NumeroModel numeroModel = findById(id);
         BeanUtils.copyProperties(dto,numeroModel,"id","cn","mcdu","area","provedor","status" );
 
-        if (!isAdmin()) {
-            numeroModel.setStatus(Status.P);
-            return new SucessResponse("Solicitacao de ativacao criada com sucesso","OK");
-        }
+        numeroModel.setStatus(Status.P);
+        numeroModel.setDataSolicitacao(LocalDateTime.now());
 
-        numeroModel.setStatus(Status.A);
         numeroRepository.save(numeroModel);
 
-        return new SucessResponse("Numero ativado com sucesso","OK");
+        return new SucessResponse("Solicitacao de ativacao criada com sucesso","OK");
+    }
+
+    public SucessResponse activateNumber(Integer id){
+
+        NumeroModel numeroModel = findById(id);
+
+        numeroModel.setStatus(Status.A);
+        numeroModel.setDataAtivacao(LocalDateTime.now());
+
+        numeroRepository.save(numeroModel);
+
+        return new SucessResponse("Numero ativado","OK");
     }
 
     public SucessResponse reserveNumber(RequestReserveNumberDTO dto){
 
         ProviderModel providerModel = providerService.findById(dto.provedor());
 
-        if(providerModel.getStatus().equals(Status.I)){
+        if(providerModel.verifyStatus()){
             throw new BusinessException("Provedor inativo");
         }
 
@@ -69,6 +76,7 @@ public class NumeroService{
                 throw new BusinessException("Número " + numero.getNumero() + " não está disponível para reserva");
             }
             numero.setStatus(Status.R);
+            numero.setDataResevada(LocalDateTime.now());
             numero.setProvedor(providerModel);
         }
         numeroRepository.saveAll(numeros);
@@ -82,23 +90,15 @@ public class NumeroService{
     }
 
     public Page<ResponseAllNumbersDto> findAll(Pageable pageable) {
-        var usuario = AuthenticatedUser();
 
-        if (isAdmin()) {
+        if (authUtils.isAdmin()) {
             return numeroRepository.findAll(pageable)
                     .map(ResponseAllNumbersDto::fromEntity);
         }else {
-            return numeroRepository.findByProvedor(usuario.getProvedor(),pageable)
+            return numeroRepository.findByProvedor(authUtils.getCurrentUser().getProvedor(),pageable)
                     .map(ResponseAllNumbersDto::fromEntity);
         }
 
-    }
-
-    private boolean isAdmin() {
-        var usuario = AuthenticatedUser();
-
-        return usuario.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
     }
 
     private Status parseStatus(String statusStr) {

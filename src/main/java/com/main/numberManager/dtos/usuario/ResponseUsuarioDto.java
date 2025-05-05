@@ -1,7 +1,7 @@
 package com.main.numberManager.dtos.usuario;
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.models.UsuarioModel;
+import com.main.numberManager.models.UserModel;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ public record ResponseUsuarioDto(
         Status status,
         String provedor_name
 ) {
-    public static ResponseUsuarioDto fromEntity(UsuarioModel usuario) {
+    public static ResponseUsuarioDto fromEntity(UserModel usuario) {
         return new ResponseUsuarioDto(
                 usuario.getId(),
                 usuario.getNome(),

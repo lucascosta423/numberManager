@@ -8,16 +8,17 @@ import com.main.numberManager.dtos.Portability.ResponsePortabilityDTO;
 import com.main.numberManager.dtos.Portability.UpdateNumberForPortabilityDTO;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.models.RequestPortabilityModel;
-import com.main.numberManager.models.UsuarioModel;
 import com.main.numberManager.repositorys.RequestPortabilityRepository;
+import com.main.numberManager.services.FilesUpload.GoogleCloudStorageService;
+import com.main.numberManager.utils.AuthUtils;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,27 +28,30 @@ public class RequestPortabilityService {
 
     private final RequestPortabilityRepository requestPortabilityRepository;
     private final NumberForPortabilityService requestNumberService;
+    private final GoogleCloudStorageService cloudStorageService;
+    private final AuthUtils authUtils;
 
-    public RequestPortabilityService(RequestPortabilityRepository requestPortabilityRepository, NumberForPortabilityService requestNumberService) {
+    public RequestPortabilityService(RequestPortabilityRepository requestPortabilityRepository, NumberForPortabilityService requestNumberService, GoogleCloudStorageService cloudStorageService, AuthUtils authUtils) {
         this.requestPortabilityRepository = requestPortabilityRepository;
         this.requestNumberService = requestNumberService;
-    }
-
-    private UsuarioModel getUsuarioAtual() {
-        return (UsuarioModel) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        this.cloudStorageService = cloudStorageService;
+        this.authUtils = authUtils;
     }
 
     @Transactional
-    public SucessResponse save(RequestPortabilityDTO dto) {
+    public SucessResponse save(RequestPortabilityDTO dto) throws IOException {
 
-        var portabilidadeModel = new RequestPortabilityModel();
-        BeanUtils.copyProperties(dto,portabilidadeModel);
+        String fileUrl = cloudStorageService.uploadFile(dto.getFatura());
 
-        fillDataPortability(portabilidadeModel);
+        var portabilityModel = new RequestPortabilityModel();
+        BeanUtils.copyProperties(dto,portabilityModel,"fileFatura");
 
-        var returnPortabilitySaved = requestPortabilityRepository.save(portabilidadeModel);
+        portabilityModel.setFileFatura(fileUrl);
+        fillDataPortability(portabilityModel);
 
-        requestNumberService.createNumberListForPortability(returnPortabilitySaved,dto.numeros());
+        var returnPortabilitySaved = requestPortabilityRepository.save(portabilityModel);
+
+        requestNumberService.createNumberListForPortability(returnPortabilitySaved,dto.getNumeros());
 
         return new SucessResponse("Solicitaçao criada com sucesso","OK");
     }
@@ -55,16 +59,16 @@ public class RequestPortabilityService {
     private void fillDataPortability(RequestPortabilityModel portabilityModel){
         portabilityModel.setId(gerarId());
         portabilityModel.setStatus(Status.N);
-        portabilityModel.setUsuario(getUsuarioAtual());
-        portabilityModel.setProvedor(getUsuarioAtual().getProvedor());
+        portabilityModel.setUsuario(authUtils.getCurrentUser());
+        portabilityModel.setProvedor(authUtils.getCurrentUser().getProvedor());
     }
 
     public SucessResponse updateDocumentOrReason(String id, UpdateDocumentOrReason dto){
-        RequestPortabilityModel portabilidadeModel = findById(id);
+        RequestPortabilityModel portabilityModel = findById(id);
 
-        updateDocumentOrReasonFields(portabilidadeModel, dto);
+        updateDocumentOrReasonFields(portabilityModel, dto);
 
-        requestPortabilityRepository.save(portabilidadeModel);
+        requestPortabilityRepository.save(portabilityModel);
 
         return new SucessResponse("Solicitacao atualizada com sucesso","OK");
     }
@@ -80,7 +84,7 @@ public class RequestPortabilityService {
     }
 
     @Transactional
-    public SucessResponse updateStatus(String id){
+    public SucessResponse finalizeRequestPortability(String id){
         RequestPortabilityModel portabilidadeModel = findById(id);
         portabilidadeModel.setStatus(Status.F);
         portabilidadeModel.setDataFinalizado(LocalDateTime.now());
@@ -94,8 +98,14 @@ public class RequestPortabilityService {
     }
 
     public Page<ResponsePortabilityDTO> findAll(Pageable pageable) {
-        return requestPortabilityRepository.findAll(pageable)
-                .map(ResponsePortabilityDTO::fromEntity);
+
+        if (authUtils.isAdmin()) {
+            return requestPortabilityRepository.findAll(pageable)
+                    .map(ResponsePortabilityDTO::fromEntity);
+        }else {
+            return requestPortabilityRepository.findByProvedor(authUtils.getCurrentUser().getProvedor(),pageable)
+                    .map(ResponsePortabilityDTO::fromEntity);
+        }
     }
 
     private String gerarId() {

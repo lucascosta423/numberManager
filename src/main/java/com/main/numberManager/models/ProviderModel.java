@@ -48,4 +48,8 @@ public class ProviderModel {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public boolean verifyStatus(){
+        return this.status == Status.I;
+    }
 }
