@@ -2,12 +2,11 @@ package com.main.numberManager.services;
 
 import com.main.numberManager.Enuns.Status;
 import com.main.numberManager.Enuns.UserRole;
-import com.main.numberManager.dtos.usuario.RequestSaveUsuarioAdmDTO;
 import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.UsuarioModel;
+import com.main.numberManager.models.UserModel;
 import com.main.numberManager.repositorys.UsuarioRepository;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,70 +31,25 @@ public class UsuarioService {
     }
 
     @Transactional
-    public SucessResponse saveUser(RequestSaveUsuarioDTO usuarioDTO) {
+    public SucessResponse save(RequestSaveUsuarioDTO dto){
 
-        var usuarioModel = new UsuarioModel();
-        BeanUtils.copyProperties(usuarioDTO,usuarioModel);
+        UserModel userModel = new UserModel();
+        BeanUtils.copyProperties(dto, userModel);
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(usuarioDTO.senha());
-        usuarioModel.setSenha(encryptedPassword);
+        String tipo = dto.tipoUsuario().toLowerCase();
 
-        usuarioModel.setStatus(Status.A);
-
-        usuarioModel.setRole(UserRole.USER);
-
-        usuarioModel.setProvedor(providerService.findById(usuarioDTO.provedor()));
-
-
-        usuarioRepository.save(usuarioModel);
-
-        return new SucessResponse("Usuario Cadastrado com sucesso.","OK");
-    }
-
-    @Transactional
-    public SucessResponse saveAdmin(RequestSaveUsuarioAdmDTO adminDTO) {
-
-        var usuarioModel = new UsuarioModel();
-        BeanUtils.copyProperties(adminDTO,usuarioModel);
-
-        String encryptedPassword = new BCryptPasswordEncoder().encode(adminDTO.senha());
-        usuarioModel.setSenha(encryptedPassword);
-
-        usuarioModel.setStatus(Status.A);
-
-        usuarioModel.setRole(UserRole.ADMIN);
-
-        usuarioRepository.save(usuarioModel);
-
-        return new SucessResponse("Administrador Cadastrado com sucesso.","OK");
-    }
-
-    @Transactional
-    public SucessResponse updateUser(UUID id, RequestUpdateUsuarioDTO dto){
-
-        UsuarioModel usuario = findByIdUser(id);
-
-        if (dto.getNome() != null) usuario.setNome(dto.getNome());
-        if (dto.getEmail() != null) usuario.setEmail(dto.getEmail());
-        if (dto.getSenha() != null) usuario.setSenha(dto.getSenha());
-
-        usuarioRepository.save(usuario);
-
-        return new SucessResponse("Usuario atualizado","Ok");
-    }
-
-    @Transactional
-    public SucessResponse changeProviderStatus(UUID id){
-        var usuario = findByIdUser(id);
-
-        switch (usuario.getStatus()){
-            case A -> usuario.setStatus(Status.I);
-            case I -> usuario.setStatus(Status.A);
+        if (!tipo.equals("admin") && !tipo.equals("user")) {
+            throw new IllegalArgumentException("Tipo de usuário inválido: " + dto.tipoUsuario());
         }
 
-        usuarioRepository.save(usuario);
+        fillDataUser(userModel, dto);
+        usuarioRepository.save(userModel);
 
-        return new SucessResponse("Usuario Deletado ou Reativado Com Sucesso","OK");
+        String msg = tipo.equals("admin") ?
+                "Administrador criado com sucesso" :
+                "Usuário criado com sucesso";
+
+        return new SucessResponse(msg, "OK");
     }
 
     public Page<ResponseUsuarioDto> findAllUsers(Pageable pageable) {
@@ -103,8 +58,63 @@ public class UsuarioService {
                 .map(ResponseUsuarioDto::fromEntity);
     }
 
-    public UsuarioModel findByIdUser(UUID id) {
+    public UserModel findByIdUser(UUID id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuario não encontrado"));
+    }
+
+    @Transactional
+    public SucessResponse updateUser(UUID id, RequestUpdateUsuarioDTO dto){
+
+        UserModel usuario = findByIdUser(id);
+        updateDataUser(usuario, dto);
+        usuarioRepository.save(usuario);
+
+        return new SucessResponse("Usuario atualizado","Ok");
+    }
+
+    private void fillDataUser(UserModel userModel,RequestSaveUsuarioDTO usuarioDTO){
+        userModel.setStatus(Status.A);
+        userModel.setSenha(cryptPassword(usuarioDTO.senha()));
+        userModel.setRole(UserRole.valueOf(usuarioDTO.tipoUsuario().toUpperCase()));
+        userModel.setProvedor(providerService.findById(usuarioDTO.provedor()));
+
+    }
+
+    private void updateDataUser(UserModel userModel, RequestUpdateUsuarioDTO dto){
+
+        Optional.ofNullable(dto.getNome())
+                .filter(nome -> !nome.trim().isEmpty())
+                .ifPresent(userModel::setNome);
+
+        Optional.ofNullable(dto.getEmail())
+                .filter(email -> !email.trim().isEmpty())
+                .ifPresent(userModel::setEmail);
+
+        Optional.ofNullable(dto.getSenha())
+                .filter(senha -> !senha.trim().isEmpty())
+                .ifPresent(senha -> userModel.setSenha(cryptPassword(senha)));
+    }
+
+    private String cryptPassword(String password){
+        return new BCryptPasswordEncoder().encode(password);
+    }
+
+    @Transactional
+    public SucessResponse changeUserStatus(UUID id){
+        var usuario = findByIdUser(id);
+
+        switch (usuario.getStatus()){
+            case A:
+                usuario.setStatus(Status.I);
+                return new SucessResponse("Usuario desativado com sucesso","OK");
+            case I:
+                usuario.setStatus(Status.A);
+                return new SucessResponse("Usuario ativado com sucesso","OK");
+        }
+
+        usuarioRepository.save(usuario);
+
+        return new SucessResponse("Nao foi possivel alterar o status do usuario","Erro");
     }
 }

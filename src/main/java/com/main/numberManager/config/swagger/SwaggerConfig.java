@@ -11,8 +11,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Minha API")
+                        .title("Number Manager API")
                         .version("1.0")
                         .description("Documentação da API com Swagger OpenAPI"));
+
     }
 }

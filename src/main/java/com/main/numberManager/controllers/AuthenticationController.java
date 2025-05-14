@@ -3,7 +3,7 @@ package com.main.numberManager.controllers;
 import com.main.numberManager.config.TokenService;
 import com.main.numberManager.dtos.usuario.AuthenticationDTO;
 import com.main.numberManager.dtos.usuario.LoginResponseDTO;
-import com.main.numberManager.models.UsuarioModel;
+import com.main.numberManager.models.UserModel;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(),data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((UsuarioModel) auth.getPrincipal());
+        var token = tokenService.generateToken((UserModel) auth.getPrincipal());
 
         return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDTO(token));
     }

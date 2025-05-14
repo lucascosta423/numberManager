@@ -5,6 +5,8 @@ import com.main.numberManager.dtos.operators.ResponseOperadorasDto;
 import com.main.numberManager.models.OperatorsModel;
 import com.main.numberManager.services.FilesUpload.OperatorsFilesService;
 import com.main.numberManager.services.OperatorsService;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
-
+@Tag(name = "Operadoras", description = "Endpoints para listagem de todos os numeros ou lista apenas um")
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/operadoras")
@@ -29,6 +31,7 @@ public class OperatorsController {
         this.operatorsService = operatorsService;
     }
 
+    @Hidden
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file")MultipartFile file){
         try {

@@ -36,16 +36,16 @@ public class NumeroModel {
 
     private String documento;
 
+    private LocalDateTime dataResevada;
+
+    private LocalDateTime dataSolicitacao;
+
     private LocalDateTime dataAtivacao;
+
+    private LocalDateTime dataUpload;
     @PrePersist
     private void onCreate(){
-        this.dataAtivacao = LocalDateTime.now();
-    }
-
-    private LocalDateTime dataUpdate;
-    @PreUpdate
-    private void onUpdate(){
-        this.dataUpdate = LocalDateTime.now();
+        this.dataUpload = LocalDateTime.now();
     }
 
     @ManyToOne

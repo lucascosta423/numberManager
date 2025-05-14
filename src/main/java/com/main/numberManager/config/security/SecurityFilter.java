@@ -1,5 +1,7 @@
 package com.main.numberManager.config.security;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.main.numberManager.config.TokenService;
 import com.main.numberManager.repositorys.UsuarioRepository;
 import jakarta.servlet.FilterChain;
@@ -27,19 +29,36 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var token = this.recoverToken(request);
 
-        if (token != null){
-            var usuario = tokenService.validateToken(token);
+        String token = this.recoverToken(request);
+
+        if (token != null) {
+            String usuario;
+            try {
+                usuario = tokenService.validateToken(token);
+
+            } catch (TokenExpiredException ex) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Token expirado\"}");
+                return;
+
+            } catch (JWTVerificationException ex) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Token invalido\"}");
+                return;
+            }
 
             UserDetails user = usuarioRepository.findByUsuario(usuario);
 
-            var authentication = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
-
+            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        filterChain.doFilter(request,response);
+
+        filterChain.doFilter(request, response);
     }
+
 
     private String recoverToken(HttpServletRequest request){
         var authHeader = request.getHeader("Authorization");

@@ -79,7 +79,7 @@ public class FileUtils {
 
     public static <T> T mapLineToModel(String line, String[] headers, Supplier<T> modelSupplier, FileMapper<T> mapper) {
         try {
-            String[] parts = line.split(";");
+            String[] parts = line.split("[;,]");
             T model = modelSupplier.get();
 
             // Processa apenas os campos disponíveis
