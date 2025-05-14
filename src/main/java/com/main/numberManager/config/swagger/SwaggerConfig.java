@@ -14,5 +14,6 @@ public class SwaggerConfig {
                         .title("Number Manager API")
                         .version("1.0")
                         .description("Documentação da API com Swagger OpenAPI"));
+
     }
 }

@@ -42,7 +42,7 @@ public class RequestPortabilityController {
         return ResponseEntity.status(HttpStatus.OK).body(requestPortabilityService.updateDocumentOrReason(id, dto));
     }
 
-    @PutMapping("/finalizar/{id}")
+    @DeleteMapping("/finalizar/{id}")
     public ResponseEntity<SucessResponse> updateStatus(@PathVariable(value = "id") String id){
         return ResponseEntity.status(HttpStatus.OK).body(requestPortabilityService.finalizeRequestPortability(id));
     }
