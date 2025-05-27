@@ -14,4 +14,12 @@ public enum UserRole {
     public String getRole(){
         return role;
     }
+
+    public boolean isAdmin() {
+        return this == ADMIN || this == SUPER_ADMIN;
+    }
+
+    public boolean isSuperAdmin() {
+        return this == SUPER_ADMIN;
+    }
 }

@@ -3,7 +3,7 @@ package com.main.numberManager.config.security;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.main.numberManager.config.TokenService;
-import com.main.numberManager.repositorys.UsuarioRepository;
+import com.main.numberManager.domain.users.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

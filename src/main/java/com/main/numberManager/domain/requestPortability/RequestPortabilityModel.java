@@ -1,8 +1,10 @@
-package com.main.numberManager.models;
+package com.main.numberManager.domain.requestPortability;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.main.numberManager.Enuns.Status;
+import com.main.numberManager.domain.providers.ProviderModel;
+import com.main.numberManager.domain.users.UserModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,10 +1,8 @@
-package com.main.numberManager.services;
+package com.main.numberManager.domain.operators;
 
 
 import com.main.numberManager.dtos.operators.ResponseOperadorasDto;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.OperatorsModel;
-import com.main.numberManager.repositorys.OperatorsRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

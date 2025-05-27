@@ -1,4 +1,4 @@
-package com.main.numberManager.services;
+package com.main.numberManager.domain.requestPortability;
 
 
 import com.main.numberManager.Enuns.Status;
@@ -7,8 +7,6 @@ import com.main.numberManager.dtos.Portability.UpdateDocumentOrReason;
 import com.main.numberManager.dtos.Portability.ResponsePortabilityDTO;
 import com.main.numberManager.dtos.Portability.UpdateNumberForPortabilityDTO;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.RequestPortabilityModel;
-import com.main.numberManager.repositorys.RequestPortabilityRepository;
 import com.main.numberManager.services.FilesUpload.GoogleCloudStorageService;
 import com.main.numberManager.utils.AuthUtils;
 import com.main.numberManager.utils.responseApi.SucessResponse;

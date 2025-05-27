@@ -1,6 +1,5 @@
-package com.main.numberManager.repositorys;
+package com.main.numberManager.domain.users;
 
-import com.main.numberManager.models.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

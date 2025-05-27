@@ -1,6 +1,5 @@
-package com.main.numberManager.repositorys;
+package com.main.numberManager.domain.requestPortability;
 
-import com.main.numberManager.models.NumberForPortabilityModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

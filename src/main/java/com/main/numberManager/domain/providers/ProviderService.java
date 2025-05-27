@@ -1,10 +1,8 @@
-package com.main.numberManager.services;
+package com.main.numberManager.domain.providers;
 
 import com.main.numberManager.dtos.provider.RequestProviderDTO;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.ProviderModel;
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.repositorys.ProviderRepository;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;

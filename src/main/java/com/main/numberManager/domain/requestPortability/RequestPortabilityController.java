@@ -1,10 +1,9 @@
-package com.main.numberManager.controllers;
+package com.main.numberManager.domain.requestPortability;
 
 import com.main.numberManager.dtos.Portability.UpdateDocumentOrReason;
 import com.main.numberManager.dtos.Portability.ResponsePortabilityDTO;
 import com.main.numberManager.dtos.Portability.RequestPortabilityDTO;
 import com.main.numberManager.dtos.Portability.UpdateNumberForPortabilityDTO;
-import com.main.numberManager.services.RequestPortabilityService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

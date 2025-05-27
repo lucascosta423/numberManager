@@ -1,12 +1,10 @@
-package com.main.numberManager.services;
+package com.main.numberManager.domain.requestPortability;
 
 import com.main.numberManager.Enuns.StatusPortability;
 import com.main.numberManager.dtos.Portability.UpdateNumberForPortabilityDTO;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.NumberForPortabilityModel;
-import com.main.numberManager.models.OperatorsModel;
-import com.main.numberManager.models.RequestPortabilityModel;
-import com.main.numberManager.repositorys.NumberForPortabilityRepository;
+import com.main.numberManager.domain.operators.OperatorsModel;
+import com.main.numberManager.domain.operators.OperatorsService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

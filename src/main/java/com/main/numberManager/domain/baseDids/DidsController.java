@@ -1,10 +1,9 @@
-package com.main.numberManager.controllers;
+package com.main.numberManager.domain.baseDids;
 
 import com.main.numberManager.dtos.Number.RequestNumberUpdateDTO;
 import com.main.numberManager.dtos.Number.RequestReserveNumberDTO;
 import com.main.numberManager.dtos.Number.ResponseAllNumbersDto;
 import com.main.numberManager.services.FilesUpload.NumberFilesService;
-import com.main.numberManager.services.NumeroService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,12 +22,12 @@ import java.io.IOException;
 @Tag(name = "Numero", description = "API REST para gerenciamento de numeros")
 @RestController
 @RequestMapping("/numero")
-public class NumberController {
-    private final NumeroService numeroService;
+public class DidsController {
+    private final DidsService didsService;
     private final NumberFilesService numberFilesService;
 
-    public NumberController(NumeroService numeroService, NumberFilesService numberFilesService) {
-        this.numeroService = numeroService;
+    public DidsController(DidsService didsService, NumberFilesService numberFilesService) {
+        this.didsService = didsService;
         this.numberFilesService = numberFilesService;
     }
 
@@ -46,7 +45,7 @@ public class NumberController {
     @PutMapping("update/{id}")
     public ResponseEntity<SucessResponse> requestNumberActivate(@PathVariable(value = "id") Integer id, @RequestBody @Valid RequestNumberUpdateDTO dto){
 
-        var success = numeroService.requestNumberActivate(id,dto);
+        var success = didsService.requestNumberActivate(id,dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
@@ -54,7 +53,7 @@ public class NumberController {
     @PostMapping("activate/{id}")
     public ResponseEntity<SucessResponse> activateNumber(@PathVariable(value = "id") Integer id){
 
-        var success = numeroService.activateNumber(id);
+        var success = didsService.activateNumber(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
@@ -62,7 +61,7 @@ public class NumberController {
     @PostMapping("reserve")
     public ResponseEntity<SucessResponse> reserveNumber(@RequestBody @Valid RequestReserveNumberDTO dto){
 
-        var success = numeroService.reserveNumber(dto);
+        var success = didsService.reserveNumber(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(success);
     }
@@ -71,6 +70,6 @@ public class NumberController {
     public ResponseEntity<Page<ResponseAllNumbersDto>> getAllNumeros(
             @PageableDefault(page = 0,size = 10,direction = Sort.Direction.ASC) Pageable pageable){
 
-        return ResponseEntity.status(HttpStatus.OK).body(numeroService.findAll(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(didsService.findAll(pageable));
     }
 }

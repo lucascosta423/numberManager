@@ -1,7 +1,7 @@
 package com.main.numberManager.services;
 
 
-import com.main.numberManager.repositorys.UsuarioRepository;
+import com.main.numberManager.domain.users.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

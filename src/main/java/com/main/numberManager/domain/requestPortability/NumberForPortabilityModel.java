@@ -1,4 +1,4 @@
-package com.main.numberManager.models;
+package com.main.numberManager.domain.requestPortability;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
