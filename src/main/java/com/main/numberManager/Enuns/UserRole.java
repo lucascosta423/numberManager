@@ -1,9 +1,8 @@
 package com.main.numberManager.Enuns;
 
 public enum UserRole {
-    ADMIN("admin"),
-    USER("user"),
-    SUPER_ADMIN("super_admin");
+    ADMIN("Administrador"),
+    USER("Usuario");
 
     private final String role;
 
@@ -16,10 +15,6 @@ public enum UserRole {
     }
 
     public boolean isAdmin() {
-        return this == ADMIN || this == SUPER_ADMIN;
-    }
-
-    public boolean isSuperAdmin() {
-        return this == SUPER_ADMIN;
+        return this == ADMIN;
     }
 }

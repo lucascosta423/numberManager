@@ -34,16 +34,11 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/provedor/**", "/usuario/**", "/numero/**", "/operadoras/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/usuario/**", "/provedor/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/usuario/**", "/provedor/**", "/portabilidade/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/usuario/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/portabilidade/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/numero/**", "/portabilidade/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/numero/update/*","portabilidade/update/").hasRole("USER")
 
-                        .requestMatchers(HttpMethod.POST, "/portabilidade/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET, "/numero/**", "/portabilidade/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.PUT, "/numero/update/*","portabilidade/update/").hasAnyRole("ADMIN", "USER")
-
-                        .requestMatchers("/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers("/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )

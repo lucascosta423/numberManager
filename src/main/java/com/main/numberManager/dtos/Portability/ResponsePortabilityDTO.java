@@ -1,7 +1,7 @@
 package com.main.numberManager.dtos.Portability;
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.domain.requestPortability.NumberForPortabilityModel;
+import com.main.numberManager.domain.requestPortability.numberForPortability.NumberForPortabilityModel;
 import com.main.numberManager.domain.requestPortability.RequestPortabilityModel;
 
 import java.time.LocalDateTime;

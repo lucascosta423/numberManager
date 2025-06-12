@@ -1,4 +1,4 @@
-package com.main.numberManager.domain.requestPortability;
+package com.main.numberManager.domain.requestPortability.numberForPortability;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

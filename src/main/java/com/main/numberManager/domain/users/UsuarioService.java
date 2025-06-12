@@ -35,24 +35,21 @@ public class UsuarioService {
         UserModel userModel = new UserModel();
         BeanUtils.copyProperties(dto, userModel);
 
-        String tipo = dto.tipoUsuario().toLowerCase();
+        String type = dto.tipoUsuario().toLowerCase();
 
-        if (!tipo.equals("admin") && !tipo.equals("user")) {
+        if (!type.equals("admin") && !type.equals("user")) {
             throw new IllegalArgumentException("Tipo de usuário inválido: " + dto.tipoUsuario());
         }
 
         fillDataUser(userModel, dto);
         usuarioRepository.save(userModel);
 
-        String msg = tipo.equals("admin") ?
-                "Administrador criado com sucesso" :
-                "Usuário criado com sucesso";
+        String msg = type.equals("admin") ? "Administrador criado com sucesso" : "Usuário criado com sucesso";
 
         return new SucessResponse(msg, "OK");
     }
 
     public Page<ResponseUsuarioDto> findAllUsers(Pageable pageable) {
-
         return usuarioRepository.findAll(pageable)
                 .map(ResponseUsuarioDto::fromEntity);
     }

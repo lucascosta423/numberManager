@@ -20,7 +20,7 @@ public record ResponseUsuarioDto(
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getUsuario(),
-                usuario.getRole().name(),
+                !usuario.getRole().name().equals("USER") ? "Administrador" : "Usuario",
                 usuario.getStatus(),
                 usuario.getProvedor()  != null ? usuario.getProvedor().getNome() : ""
         );

@@ -42,7 +42,6 @@ public class SecurityFilter extends OncePerRequestFilter {
                 response.setContentType("application/json");
                 response.getWriter().write("{\"error\": \"Token expirado\"}");
                 return;
-
             } catch (JWTVerificationException ex) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");

@@ -59,13 +59,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.SUPER_ADMIN) {
-            return List.of(
-                    new SimpleGrantedAuthority("ROLE_SUPER_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_USER")
-            );
-        } else if (this.role == UserRole.ADMIN) {
+        if (this.role == UserRole.ADMIN) {
             return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_USER")
@@ -109,10 +103,6 @@ public class UserModel implements UserDetails {
 
     public boolean isAdmin() {
         return role != null && role.isAdmin();
-    }
-
-    public boolean isSuperAdmin() {
-        return role != null && role.isSuperAdmin();
     }
 
 }

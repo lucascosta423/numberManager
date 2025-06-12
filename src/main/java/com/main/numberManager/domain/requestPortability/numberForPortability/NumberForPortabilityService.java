@@ -1,6 +1,7 @@
-package com.main.numberManager.domain.requestPortability;
+package com.main.numberManager.domain.requestPortability.numberForPortability;
 
 import com.main.numberManager.Enuns.StatusPortability;
+import com.main.numberManager.domain.requestPortability.RequestPortabilityModel;
 import com.main.numberManager.dtos.Portability.UpdateNumberForPortabilityDTO;
 import com.main.numberManager.exeptions.NotFoundException;
 import com.main.numberManager.domain.operators.OperatorsModel;

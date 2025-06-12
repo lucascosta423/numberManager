@@ -1,8 +1,9 @@
-package com.main.numberManager.domain.requestPortability;
+package com.main.numberManager.domain.requestPortability.numberForPortability;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.main.numberManager.Enuns.StatusPortability;
+import com.main.numberManager.domain.requestPortability.RequestPortabilityModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
