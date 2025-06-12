@@ -1,7 +1,7 @@
 package com.main.numberManager.dtos.usuario;
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.models.UserModel;
+import com.main.numberManager.domain.users.UserModel;
 
 import java.util.UUID;
 

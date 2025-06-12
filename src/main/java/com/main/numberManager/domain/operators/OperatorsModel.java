@@ -1,4 +1,4 @@
-package com.main.numberManager.models;
+package com.main.numberManager.domain.operators;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,8 @@
-package com.main.numberManager.models;
+package com.main.numberManager.domain.users;
 
 import com.main.numberManager.Enuns.Status;
 import com.main.numberManager.Enuns.UserRole;
+import com.main.numberManager.domain.providers.ProviderModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -103,6 +104,15 @@ public class UserModel implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.status == Status.A;
+    }
+
+
+    public boolean isAdmin() {
+        return role != null && role.isAdmin();
+    }
+
+    public boolean isSuperAdmin() {
+        return role != null && role.isSuperAdmin();
     }
 
 }

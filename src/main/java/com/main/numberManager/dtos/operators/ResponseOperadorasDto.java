@@ -1,6 +1,6 @@
 package com.main.numberManager.dtos.operators;
 
-import com.main.numberManager.models.OperatorsModel;
+import com.main.numberManager.domain.operators.OperatorsModel;
 
 public record ResponseOperadorasDto (
     String nomePrestadora,

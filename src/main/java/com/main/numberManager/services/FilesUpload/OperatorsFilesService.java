@@ -1,7 +1,7 @@
 package com.main.numberManager.services.FilesUpload;
 
-import com.main.numberManager.models.OperatorsModel;
-import com.main.numberManager.repositorys.OperatorsRepository;
+import com.main.numberManager.domain.operators.OperatorsModel;
+import com.main.numberManager.domain.operators.OperatorsRepository;
 import com.main.numberManager.services.serviceImpl.FileHandlingImp;
 import com.main.numberManager.utils.FileUtils;
 import com.main.numberManager.utils.StringUtils;

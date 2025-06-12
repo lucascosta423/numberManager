@@ -1,7 +1,6 @@
-package com.main.numberManager.repositorys;
+package com.main.numberManager.domain.requestPortability;
 
-import com.main.numberManager.models.ProviderModel;
-import com.main.numberManager.models.RequestPortabilityModel;
+import com.main.numberManager.domain.providers.ProviderModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

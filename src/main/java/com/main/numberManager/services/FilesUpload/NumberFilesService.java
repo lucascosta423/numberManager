@@ -1,9 +1,9 @@
 package com.main.numberManager.services.FilesUpload;
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.models.NumeroModel;
-import com.main.numberManager.repositorys.NumeroRepository;
-import com.main.numberManager.services.ProviderService;
+import com.main.numberManager.domain.baseDids.DidsModel;
+import com.main.numberManager.domain.baseDids.DidsRepository;
+import com.main.numberManager.domain.providers.ProviderService;
 import com.main.numberManager.services.serviceImpl.FileHandlingImp;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,13 +18,13 @@ import java.util.List;
 import static com.main.numberManager.utils.FileUtils.mapLineToModel;
 
 @Service
-public class NumberFilesService implements FileHandlingImp<NumeroModel> {
+public class NumberFilesService implements FileHandlingImp<DidsModel> {
 
-    private final NumeroRepository numeroRepository;
+    private final DidsRepository didsRepository;
     private final ProviderService providerService;
 
-    public NumberFilesService(NumeroRepository numeroRepository, ProviderService providerService) {
-        this.numeroRepository = numeroRepository;
+    public NumberFilesService(DidsRepository didsRepository, ProviderService providerService) {
+        this.didsRepository = didsRepository;
         this.providerService = providerService;
     }
 
@@ -34,7 +34,7 @@ public class NumberFilesService implements FileHandlingImp<NumeroModel> {
             String headerLine = reader.readLine();
             String[] headers = headerLine.split(";");
 
-            List<NumeroModel> batch = new ArrayList<>();
+            List<DidsModel> batch = new ArrayList<>();
             int batchSize = 1000;
 
             String line;
@@ -42,7 +42,7 @@ public class NumberFilesService implements FileHandlingImp<NumeroModel> {
             while ((line = reader.readLine()) != null) {
                 if (!line.isEmpty()) {
 
-                    NumeroModel numero = mapLineToModel(line, headers, NumeroModel::new, (model, header, value) -> {
+                    DidsModel numero = mapLineToModel(line, headers, DidsModel::new, (model, header, value) -> {
                         switch (header) {
                             case "cn" -> model.setCn(value);
                             case "prefixo" -> model.setPrefixo(value);
@@ -76,7 +76,7 @@ public class NumberFilesService implements FileHandlingImp<NumeroModel> {
     }
 
     @Override
-    public void saveBatch(List<NumeroModel> batch) {
-        numeroRepository.saveAll(batch);
+    public void saveBatch(List<DidsModel> batch) {
+        didsRepository.saveAll(batch);
     }
 }

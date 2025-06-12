@@ -1,7 +1,7 @@
 package com.main.numberManager.dtos.Number;
 
 import com.main.numberManager.Enuns.Status;
-import com.main.numberManager.models.NumeroModel;
+import com.main.numberManager.domain.baseDids.DidsModel;
 
 import java.time.LocalDateTime;
 
@@ -17,18 +17,18 @@ public record ResponseAllNumbersDto(
         String provedor,
         Status status
 ) {
-    public static ResponseAllNumbersDto fromEntity(NumeroModel numeroModel) {
+    public static ResponseAllNumbersDto fromEntity(DidsModel didsModel) {
         return new ResponseAllNumbersDto(
-                numeroModel.getId(),
-                numeroModel.getNumero(),
-                numeroModel.getArea(),
-                numeroModel.getCliente(),
-                numeroModel.getDocumento(),
-                numeroModel.getDataAtivacao(),
-                numeroModel.getDataSolicitacao(),
-                numeroModel.getDataResevada(),
-                numeroModel.getProvedor()  != null ? numeroModel.getProvedor().getNome() : "",
-                numeroModel.getStatus()
+                didsModel.getId(),
+                didsModel.getNumero(),
+                didsModel.getArea(),
+                didsModel.getCliente(),
+                didsModel.getDocumento(),
+                didsModel.getDataAtivacao(),
+                didsModel.getDataSolicitacao(),
+                didsModel.getDataResevada(),
+                didsModel.getProvedor()  != null ? didsModel.getProvedor().getNome() : "",
+                didsModel.getStatus()
         );
     }
 }

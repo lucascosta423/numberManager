@@ -1,6 +1,6 @@
 package com.main.numberManager.utils;
 
-import com.main.numberManager.models.UserModel;
+import com.main.numberManager.domain.users.UserModel;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

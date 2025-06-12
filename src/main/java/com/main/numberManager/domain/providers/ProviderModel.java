@@ -1,4 +1,4 @@
-package com.main.numberManager.models;
+package com.main.numberManager.domain.providers;
 
 import com.main.numberManager.Enuns.Status;
 import jakarta.persistence.*;

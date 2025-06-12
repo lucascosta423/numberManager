@@ -1,6 +1,5 @@
-package com.main.numberManager.repositorys;
+package com.main.numberManager.domain.operators;
 
-import com.main.numberManager.models.OperatorsModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

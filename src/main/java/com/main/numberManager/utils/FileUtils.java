@@ -1,6 +1,6 @@
 package com.main.numberManager.utils;
 
-import com.main.numberManager.models.NumeroModel;
+import com.main.numberManager.domain.baseDids.DidsModel;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import org.springframework.web.multipart.MultipartFile;
@@ -108,8 +108,8 @@ public class FileUtils {
     }
 
     private static void validateRequiredFields(Object model) {
-        if (model instanceof NumeroModel numeroModel) {
-            if (numeroModel.getCn() == null || numeroModel.getPrefixo() == null || numeroModel.getMcdu() == null) {
+        if (model instanceof DidsModel didsModel) {
+            if (didsModel.getCn() == null || didsModel.getPrefixo() == null || didsModel.getMcdu() == null) {
                 throw new IllegalArgumentException("Campos obrigatórios não podem ser nulos (cn, prefixo, mcdu)");
             }
         }

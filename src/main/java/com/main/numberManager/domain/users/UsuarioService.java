@@ -1,4 +1,4 @@
-package com.main.numberManager.services;
+package com.main.numberManager.domain.users;
 
 import com.main.numberManager.Enuns.Status;
 import com.main.numberManager.Enuns.UserRole;
@@ -6,8 +6,7 @@ import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
 import com.main.numberManager.exeptions.NotFoundException;
-import com.main.numberManager.models.UserModel;
-import com.main.numberManager.repositorys.UsuarioRepository;
+import com.main.numberManager.domain.providers.ProviderService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;

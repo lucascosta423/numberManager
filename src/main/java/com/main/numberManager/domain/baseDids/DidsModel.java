@@ -1,6 +1,7 @@
-package com.main.numberManager.models;
+package com.main.numberManager.domain.baseDids;
 
 import com.main.numberManager.Enuns.Status;
+import com.main.numberManager.domain.providers.ProviderModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NumeroModel {
+public class DidsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

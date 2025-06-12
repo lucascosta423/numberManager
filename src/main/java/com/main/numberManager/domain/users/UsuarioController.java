@@ -1,10 +1,9 @@
-package com.main.numberManager.controllers;
+package com.main.numberManager.domain.users;
 
 import com.main.numberManager.dtos.usuario.RequestSaveUsuarioDTO;
 import com.main.numberManager.dtos.usuario.RequestUpdateUsuarioDTO;
 import com.main.numberManager.dtos.usuario.ResponseUsuarioDto;
-import com.main.numberManager.services.ProviderService;
-import com.main.numberManager.services.UsuarioService;
+import com.main.numberManager.domain.providers.ProviderService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

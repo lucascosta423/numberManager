@@ -1,10 +1,8 @@
-package com.main.numberManager.controllers;
+package com.main.numberManager.domain.operators;
 
 import com.main.numberManager.dtos.operators.RequestNumeroOperadoraDTO;
 import com.main.numberManager.dtos.operators.ResponseOperadorasDto;
-import com.main.numberManager.models.OperatorsModel;
 import com.main.numberManager.services.FilesUpload.OperatorsFilesService;
-import com.main.numberManager.services.OperatorsService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;

@@ -1,8 +1,6 @@
-package com.main.numberManager.controllers;
+package com.main.numberManager.domain.providers;
 
 import com.main.numberManager.dtos.provider.RequestProviderDTO;
-import com.main.numberManager.models.ProviderModel;
-import com.main.numberManager.services.ProviderService;
 import com.main.numberManager.utils.responseApi.SucessResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
